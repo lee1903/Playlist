@@ -17,47 +17,20 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
     
     var session: SPTSession!
     var player: SPTAudioStreamingController?
-
-    @IBOutlet weak var loginButton: UIButton!
+    
+    let userDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.perform(#selector(ViewController.authenticateSpotifySession), with: nil, afterDelay: 1.0)
+        
         // Do any additional setup after loading the view, typically from a nib.
         
-        loginButton.isHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateAfterFirstLogin), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
-        
-        let userDefaults = UserDefaults.standard
-        
-        if let sessionObj:Any = userDefaults.object(forKey: "SpotifySession") {
-            print("spotify session available")
-            
-            let sessionDataObj = sessionObj as! Data
-            let session = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
-            
-            if !session.isValid() {
-                SPTAuth.defaultInstance().renewSession(session, callback: { (error, renewedSession) in
-                    if error != nil {
-                        print("error refreshing session")
-                        print(error)
-                    } else {
-                        let sessionData = NSKeyedArchiver.archivedData(withRootObject: renewedSession as Any)
-                        userDefaults.set(sessionData, forKey: "SpotifySession")
-                        userDefaults.synchronize()
-                        
-                        self.session = renewedSession
-                        self.playUsingSession(sessionObj: session)
-                    }
-                })
-            } else {
-                print("session valid")
-                self.playUsingSession(sessionObj: session)
-            }
-            
-        } else {
-            loginButton.isHidden = false
-        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        authenticateSpotifySession()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,8 +38,39 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func updateAfterFirstLogin() {
-        loginButton.isHidden = true
+    func authenticateSpotifySession() {
+        if let sessionObj:Any = userDefaults.object(forKey: "SpotifySession") {
+            print("spotify session available")
+            
+            let sessionDataObj = sessionObj as! Data
+            self.session = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+            
+            validateSpotifySession(session: self.session)
+            
+        } else {
+            self.performSegue(withIdentifier: "spotifyLoginSegue", sender: nil)
+        }
+    }
+    
+    func validateSpotifySession(session: SPTSession) {
+        if !session.isValid() {
+            SPTAuth.defaultInstance().renewSession(session, callback: { (error, renewedSession) in
+                if error != nil {
+                    print("error refreshing session")
+                    print(error)
+                } else {
+                    let sessionData = NSKeyedArchiver.archivedData(withRootObject: renewedSession as Any)
+                    self.userDefaults.set(sessionData, forKey: "SpotifySession")
+                    self.userDefaults.synchronize()
+                    
+                    self.session = renewedSession
+                    self.playUsingSession(sessionObj: session)
+                }
+            })
+        } else {
+            print("session valid")
+            self.playUsingSession(sessionObj: session)
+        }
     }
     
     func playUsingSession(sessionObj: SPTSession!) {
@@ -110,19 +114,6 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
                 print(error)
             }
         })
-    }
-
-
-    @IBAction func onLoginWithSpotify(_ sender: Any) {
-        let auth = SPTAuth.defaultInstance()
-        
-        auth?.clientID = clientID
-        auth?.requestedScopes = [SPTAuthStreamingScope]
-        auth?.redirectURL = URL(string: callbackURL)
-        auth?.tokenSwapURL = URL(string: tokenSwapURL)
-        auth?.tokenRefreshURL = URL(string: tokenRefreshServiceURL)
-        
-        UIApplication.shared.openURL((auth?.spotifyWebAuthenticationURL())!)
     }
     
 }
