@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, SPTAudioStreamingDelegate {
+class ViewController: UIViewController {
     
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"
@@ -48,7 +48,7 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
             validateSpotifySession(session: self.session)
             
         } else {
-            self.performSegue(withIdentifier: "spotifyLoginSegue", sender: nil)
+            self.promptUserLogin()
         }
     }
     
@@ -58,6 +58,7 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
                 if error != nil {
                     print("error refreshing session")
                     print(error)
+                    self.promptUserLogin()
                 } else {
                     let sessionData = NSKeyedArchiver.archivedData(withRootObject: renewedSession as Any)
                     self.userDefaults.set(sessionData, forKey: "SpotifySession")
@@ -72,6 +73,13 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
             self.playUsingSession(sessionObj: session)
         }
     }
+    
+    func promptUserLogin() {
+        self.performSegue(withIdentifier: "spotifyLoginSegue", sender: nil)
+    }
+}
+
+extension ViewController: SPTAudioStreamingDelegate {
     
     func playUsingSession(sessionObj: SPTSession!) {
         if player == nil {
@@ -93,6 +101,7 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
         print("logging in with access token")
         
     }
+
     
     func audioStreamingDidReconnect(_ audioStreaming: SPTAudioStreamingController!) {
         print("audio stream reconnected")
@@ -108,12 +117,19 @@ class ViewController: UIViewController, SPTAudioStreamingDelegate {
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         print("audio stream logged in")
-        player?.playSpotifyURI("spotify:track:58s6EuEYJdlb0kO7awm3Vp", startingWith: 0, startingWithPosition: 0, callback: { (error) in
+//        player?.playSpotifyURI("spotify:track:58s6EuEYJdlb0kO7awm3Vp", startingWith: 0, startingWithPosition: 0, callback: { (error) in
+//            if error != nil {
+//                print("error playing uri")
+//                print(error)
+//            }
+//        })
+        SPTSearch.perform(withQuery: "drake", queryType: SPTSearchQueryType.queryTypeArtist, accessToken: session.accessToken) { (error, response) in
             if error != nil {
-                print("error playing uri")
                 print(error)
             }
-        })
+            let listpage = response as! SPTListPage
+            print(listpage.items)
+        }
     }
     
 }
