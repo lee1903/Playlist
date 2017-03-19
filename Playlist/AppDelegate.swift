@@ -28,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
             print("user needs to login")
             let vc = storyboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
             window?.rootViewController = vc
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "CreateJoinSessionNavController")
+            window?.rootViewController = vc
         }
         
         return true
@@ -57,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
     }
     
     func userDidLogin() {
-        let vc = storyboard.instantiateInitialViewController()
+        let vc = storyboard.instantiateViewController(withIdentifier: "CreateJoinSessionNavController")
         window?.rootViewController = vc
     }
 

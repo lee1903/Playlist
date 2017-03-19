@@ -21,7 +21,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.7284950041157614" blue="0.67498359215043402" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Player" id="RDB-y1-DJQ"/>
                 </viewController>
@@ -155,6 +155,96 @@
             </objects>
             <point key="canvasLocation" x="2348" y="122.78860569715144"/>
         </scene>
+        <!--Create Join Session View Controller-->
+        <scene sceneID="Jyp-NJ-Q6j">
+            <objects>
+                <viewController storyboardIdentifier="CreateJoinSessionViewController" id="4kp-ij-cWb" customClass="CreateJoinSessionViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cJY-iU-bHV"/>
+                        <viewControllerLayoutGuide type="bottom" id="405-m4-v7V"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hhb-HM-6G3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHm-Kk-IkO">
+                                <rect key="frame" x="109" y="428" width="156" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="156" id="afu-ek-icC"/>
+                                    <constraint firstAttribute="height" constant="30" id="aqC-3B-hcG"/>
+                                </constraints>
+                                <state key="normal" title="Create Playlist Session"/>
+                                <connections>
+                                    <segue destination="n3E-Bs-8C2" kind="show" id="efd-4S-IJx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5w-bX-8u1">
+                                <rect key="frame" x="116" y="498" width="142" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3sr-yn-ZZ8"/>
+                                    <constraint firstAttribute="width" constant="142" id="FVx-xP-Fsu"/>
+                                </constraints>
+                                <state key="normal" title="Join Playlist Session"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="E5w-bX-8u1" firstAttribute="centerX" secondItem="hhb-HM-6G3" secondAttribute="centerX" id="0LB-pB-0uB"/>
+                            <constraint firstItem="mHm-Kk-IkO" firstAttribute="top" secondItem="cJY-iU-bHV" secondAttribute="bottom" constant="364" id="R30-vC-rOy"/>
+                            <constraint firstItem="E5w-bX-8u1" firstAttribute="top" secondItem="mHm-Kk-IkO" secondAttribute="bottom" constant="40" id="XT7-4g-18o"/>
+                            <constraint firstItem="mHm-Kk-IkO" firstAttribute="centerX" secondItem="hhb-HM-6G3" secondAttribute="centerX" id="yKj-zl-oqU"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="F33-mk-BNv"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bS0-Ri-bLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1528.8" y="1692.5037481259371"/>
+        </scene>
+        <!--Create-->
+        <scene sceneID="Aqj-2j-5Wp">
+            <objects>
+                <viewController id="n3E-Bs-8C2" customClass="CreatePlaylistSessionViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tQK-wu-BtU"/>
+                        <viewControllerLayoutGuide type="bottom" id="LLi-Nf-kfN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pob-uM-LfU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter name..." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ejx-v6-j3h">
+                                <rect key="frame" x="62" y="120" width="252" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="252" id="YIB-iM-FTy"/>
+                                    <constraint firstAttribute="height" constant="30" id="evr-1B-XG9"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ejx-v6-j3h" firstAttribute="centerX" secondItem="pob-uM-LfU" secondAttribute="centerX" id="Bhv-OP-6VM"/>
+                            <constraint firstItem="ejx-v6-j3h" firstAttribute="top" secondItem="tQK-wu-BtU" secondAttribute="bottom" constant="56" id="P8c-Vj-7mw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create" id="pox-R0-fhR">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="QIe-bi-Y8x">
+                            <connections>
+                                <action selector="onDone:" destination="n3E-Bs-8C2" id="Ygh-r0-A6k"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nameTextField" destination="ejx-v6-j3h" id="0Rc-Al-vo8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RGo-1x-17b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2472.8000000000002" y="1566.5667166416792"/>
+        </scene>
         <!--Playlist-->
         <scene sceneID="wpn-lc-Yow">
             <objects>
@@ -252,6 +342,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4S-qc-lWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="591.20000000000005" y="122.78860569715144"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="skq-XD-jFc">
+            <objects>
+                <navigationController storyboardIdentifier="CreateJoinSessionNavController" automaticallyAdjustsScrollViewInsets="NO" id="3LG-VY-3XP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PKr-HE-qrS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4kp-ij-cWb" kind="relationship" relationship="rootViewController" id="Ukh-du-2E9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w2c-28-0Np" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="589.60000000000002" y="1692.5037481259371"/>
         </scene>
     </scenes>
 </document>
