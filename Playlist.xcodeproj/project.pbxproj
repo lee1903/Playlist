@@ -12,11 +12,14 @@
 		E4275DBA1E7508C4001B938D /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4275DB71E7508C4001B938D /* SpotifyAuthentication.framework */; };
 		E4275DBB1E7508C4001B938D /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4275DB81E7508C4001B938D /* SpotifyMetadata.framework */; };
 		E4275DC41E75B7FC001B938D /* SpotifyLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */; };
+		E42D34A41E7787E200C3A70B /* SearchDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42D34A31E7787E200C3A70B /* SearchDataCell.swift */; };
 		E47351AB1E74CA2900966862 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47351AA1E74CA2900966862 /* AppDelegate.swift */; };
-		E47351AD1E74CA2900966862 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47351AC1E74CA2900966862 /* ViewController.swift */; };
+		E47351AD1E74CA2900966862 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47351AC1E74CA2900966862 /* PlayerViewController.swift */; };
 		E47351B01E74CA2900966862 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E47351AE1E74CA2900966862 /* Main.storyboard */; };
 		E47351B21E74CA2A00966862 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E47351B11E74CA2A00966862 /* Assets.xcassets */; };
 		E47351B51E74CA2A00966862 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E47351B31E74CA2A00966862 /* LaunchScreen.storyboard */; };
+		E4913BF91E7EF7CB007CBF70 /* SpotifySearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913BF81E7EF7CB007CBF70 /* SpotifySearchItem.swift */; };
+		E494D3121E777569001EB774 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E494D3111E777569001EB774 /* SearchViewController.swift */; };
 		ECB4CADFD031A76E7B7E0202 /* Pods_Playlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E2609A37E95B04D6B89DDE /* Pods_Playlist.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,13 +33,16 @@
 		E4275DB71E7508C4001B938D /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
 		E4275DB81E7508C4001B938D /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyMetadata.framework; sourceTree = "<group>"; };
 		E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyLoginViewController.swift; sourceTree = "<group>"; };
+		E42D34A31E7787E200C3A70B /* SearchDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataCell.swift; sourceTree = "<group>"; };
 		E47351A71E74CA2900966862 /* Playlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Playlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47351AA1E74CA2900966862 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E47351AC1E74CA2900966862 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E47351AC1E74CA2900966862 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		E47351AF1E74CA2900966862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E47351B11E74CA2A00966862 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E47351B41E74CA2A00966862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E47351B61E74CA2A00966862 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4913BF81E7EF7CB007CBF70 /* SpotifySearchItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifySearchItem.swift; sourceTree = "<group>"; };
+		E494D3111E777569001EB774 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +79,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E42D34A21E7787BC00C3A70B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E42D34A31E7787E200C3A70B /* SearchDataCell.swift */,
+				E4913BF81E7EF7CB007CBF70 /* SpotifySearchItem.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		E473519E1E74CA2900966862 = {
 			isa = PBXGroup;
 			children = (
@@ -98,8 +113,8 @@
 				E4275DB71E7508C4001B938D /* SpotifyAuthentication.framework */,
 				E4275DB81E7508C4001B938D /* SpotifyMetadata.framework */,
 				E47351AA1E74CA2900966862 /* AppDelegate.swift */,
-				E47351AC1E74CA2900966862 /* ViewController.swift */,
-				E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */,
+				E42D34A21E7787BC00C3A70B /* Views */,
+				E494D3101E7773D1001EB774 /* View Controllers */,
 				E47351AE1E74CA2900966862 /* Main.storyboard */,
 				E47351B11E74CA2A00966862 /* Assets.xcassets */,
 				E47351B31E74CA2A00966862 /* LaunchScreen.storyboard */,
@@ -107,6 +122,16 @@
 				E40D0C961E74D58A0031FB63 /* Playlist-Bridging-Header.h */,
 			);
 			path = Playlist;
+			sourceTree = "<group>";
+		};
+		E494D3101E7773D1001EB774 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */,
+				E47351AC1E74CA2900966862 /* PlayerViewController.swift */,
+				E494D3111E777569001EB774 /* SearchViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,7 +234,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B9BE8D2ED73047E79EB9E96D /* [CP] Copy Pods Resources */ = {
@@ -234,9 +259,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E47351AD1E74CA2900966862 /* ViewController.swift in Sources */,
+				E47351AD1E74CA2900966862 /* PlayerViewController.swift in Sources */,
 				E4275DC41E75B7FC001B938D /* SpotifyLoginViewController.swift in Sources */,
+				E494D3121E777569001EB774 /* SearchViewController.swift in Sources */,
+				E42D34A41E7787E200C3A70B /* SearchDataCell.swift in Sources */,
 				E47351AB1E74CA2900966862 /* AppDelegate.swift in Sources */,
+				E4913BF91E7EF7CB007CBF70 /* SpotifySearchItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

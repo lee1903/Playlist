@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import PYSearch
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDelegate {
 
     var window: UIWindow?
+    var storyboard = UIStoryboard(name: "Main", bundle: nil)
+
     
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"

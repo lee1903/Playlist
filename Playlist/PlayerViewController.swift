@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PlayerViewController: UIViewController {
     
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"
@@ -23,14 +23,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.perform(#selector(ViewController.authenticateSpotifySession), with: nil, afterDelay: 1.0)
+        self.perform(#selector(PlayerViewController.authenticateSpotifySession), with: nil, afterDelay: 1.0)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayerViewController.authenticateSpotifySession), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
         
         // Do any additional setup after loading the view, typically from a nib.
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        authenticateSpotifySession()
+        //authenticateSpotifySession()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,7 +81,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: SPTAudioStreamingDelegate {
+extension PlayerViewController: SPTAudioStreamingDelegate {
     
     func playUsingSession(sessionObj: SPTSession!) {
         if player == nil {
@@ -123,13 +125,13 @@ extension ViewController: SPTAudioStreamingDelegate {
 //                print(error)
 //            }
 //        })
-        SPTSearch.perform(withQuery: "drake", queryType: SPTSearchQueryType.queryTypeArtist, accessToken: session.accessToken) { (error, response) in
-            if error != nil {
-                print(error)
-            }
-            let listpage = response as! SPTListPage
-            print(listpage.items)
-        }
+//        SPTSearch.perform(withQuery: "drake", queryType: SPTSearchQueryType.queryTypeArtist, accessToken: session.accessToken) { (error, response) in
+//            if error != nil {
+//                print(error)
+//            }
+//            let listpage = response as! SPTListPage
+//            print(listpage.items)
+//        }
     }
     
 }
