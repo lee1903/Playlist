@@ -93,13 +93,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print("error")
         }
         
-        for obj in response.items {
-            let spotifyItem = SpotifySearchItem(type: typeString, item: obj)
-            items.append(spotifyItem)
+        
+        if response.items != nil{
+            for obj in response.items {
+                let spotifyItem = SpotifySearchItem(type: typeString, item: obj)
+                items.append(spotifyItem)
+            }
+            
+            self.tableData = items
+            tableView.reloadData()
         }
         
-        self.tableData = items
-        tableView.reloadData()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,11 +134,9 @@ extension SearchViewController: UISearchBarDelegate {
         searchSpotify(query: query!)
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("ended editing")
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("begin editing")
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let query = searchBar.text
+        
+        searchSpotify(query: query!)
     }
 }

@@ -23,12 +23,9 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.perform(#selector(PlayerViewController.authenticateSpotifySession), with: nil, afterDelay: 1.0)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(PlayerViewController.authenticateSpotifySession), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
-        
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.session = SpotifyClient.sharedInstance.session
+        self.playUsingSession(sessionObj: self.session)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,46 +35,6 @@ class PlayerViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func authenticateSpotifySession() {
-        if let sessionObj:Any = userDefaults.object(forKey: "SpotifySession") {
-            print("spotify session available")
-            
-            let sessionDataObj = sessionObj as! Data
-            self.session = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
-            
-            validateSpotifySession(session: self.session)
-            
-        } else {
-            self.promptUserLogin()
-        }
-    }
-    
-    func validateSpotifySession(session: SPTSession) {
-        if !session.isValid() {
-            SPTAuth.defaultInstance().renewSession(session, callback: { (error, renewedSession) in
-                if error != nil {
-                    print("error refreshing session")
-                    print(error)
-                    self.promptUserLogin()
-                } else {
-                    let sessionData = NSKeyedArchiver.archivedData(withRootObject: renewedSession as Any)
-                    self.userDefaults.set(sessionData, forKey: "SpotifySession")
-                    self.userDefaults.synchronize()
-                    
-                    self.session = renewedSession
-                    self.playUsingSession(sessionObj: session)
-                }
-            })
-        } else {
-            print("session valid")
-            self.playUsingSession(sessionObj: session)
-        }
-    }
-    
-    func promptUserLogin() {
-        self.performSegue(withIdentifier: "spotifyLoginSegue", sender: nil)
     }
 }
 
@@ -125,14 +82,5 @@ extension PlayerViewController: SPTAudioStreamingDelegate {
 //                print(error)
 //            }
 //        })
-//        SPTSearch.perform(withQuery: "drake", queryType: SPTSearchQueryType.queryTypeArtist, accessToken: session.accessToken) { (error, response) in
-//            if error != nil {
-//                print(error)
-//            }
-//            let listpage = response as! SPTListPage
-//            print(listpage.items)
-//        }
     }
-    
 }
-

@@ -23,6 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        if !SpotifyClient.sharedInstance.authenticateSpotifySession() {
+            print("user needs to login")
+            let vc = storyboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
+            window?.rootViewController = vc
+        }
+        
         return true
     }
     
@@ -40,11 +47,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
                 userDefaults.set(sessionData, forKey: "SpotifySession")
                 userDefaults.synchronize()
                 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
+                SpotifyClient.sharedInstance.authenticateSpotifySession()
+                
+                self.userDidLogin()
             })
         }
         
         return false
+    }
+    
+    func userDidLogin() {
+        let vc = storyboard.instantiateInitialViewController()
+        window?.rootViewController = vc
     }
 
 
