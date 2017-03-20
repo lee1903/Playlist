@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SpotifyClient: NSObject {
+class SpotifyClient {
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"
     let tokenSwapURL = "http://localhost:1235/swap"

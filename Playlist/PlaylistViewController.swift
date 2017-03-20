@@ -11,6 +11,7 @@ import UIKit
 class PlaylistViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBar: UINavigationBar!
     
     var tableData: [Track]?
 
@@ -19,6 +20,8 @@ class PlaylistViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        navBar.topItem?.title = PlaylistSessionManager.sharedInstance.session?.name
 
         // Do any additional setup after loading the view.
     }
@@ -28,6 +31,7 @@ class PlaylistViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet weak var onEndSession: UIBarButtonItem!
 
     /*
     // MARK: - Navigation

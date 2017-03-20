@@ -24,7 +24,23 @@ class CreatePlaylistSessionViewController: UIViewController {
     }
     
     @IBAction func onDone(_ sender: Any) {
-        
+        if nameTextField.text != nil {
+            let playlistSession = PlaylistSession(name: nameTextField.text!)
+            PlaylistClient.createPlaylistSession(session: playlistSession, completion: { (response, error) in
+                if error != nil {
+                    print(error)
+                } else {
+                    print(response)
+                    if response == "success" {
+                        PlaylistSessionManager.sharedInstance.saveSession(session: playlistSession, completion: { 
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
+                        })
+                    }
+                }
+            })
+        } else {
+            print("error text field blank")
+        }
     }
 
     /*

@@ -18,8 +18,6 @@ class SpotifyLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(SpotifyLoginViewController.updateAfterLogin), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
-
         // Do any additional setup after loading the view.
     }
 

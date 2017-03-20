@@ -10,7 +10,7 @@ import UIKit
 import PYSearch
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -24,10 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayPlayerView), name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
+        
         if !SpotifyClient.sharedInstance.authenticateSpotifySession() {
             print("user needs to login")
             let vc = storyboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
             window?.rootViewController = vc
+        } else if PlaylistSessionManager.sharedInstance.hasSession() {
+            print("has playlist session")
         } else {
             let vc = storyboard.instantiateViewController(withIdentifier: "CreateJoinSessionNavController")
             window?.rootViewController = vc
@@ -61,6 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PYSearchViewControllerDel
     
     func userDidLogin() {
         let vc = storyboard.instantiateViewController(withIdentifier: "CreateJoinSessionNavController")
+        window?.rootViewController = vc
+    }
+    
+    func displayPlayerView() {
+        let vc = storyboard.instantiateInitialViewController()
         window?.rootViewController = vc
     }
 

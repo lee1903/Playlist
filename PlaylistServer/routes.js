@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
  
 var Session = require('./models/session');
+var Track = require('./models/track')
  
 // Middleware for all this routers requests
 router.use(function timeLog(req, res, next) {
@@ -30,9 +31,10 @@ router.route('/sessions')
 router.route('/sessions')
     .post(function(req, res) {
         var session = new Session();
-    // Set text and user values from the request
-	session.name = req.body.name;
-    session.date = req.body.date;
+	    // Set text and user values from the request
+		session.name = req.body.name;
+	    session.date = req.body.date;
+	    session.playlist = []
  
         // Save session and check for errors
         session.save(function(err) {
@@ -49,6 +51,25 @@ router.route('/sessions/name=:name')
             if (err)
                 res.send(err);
             res.json(session);
+        });
+    })
+    .put(function(req, res) {
+        Session.findOne({name : req.params.name}, function(err, session) {
+            if (err)
+                res.send(err);
+
+            var track = new Track()
+            track.name = req.body.name
+            track.votes = req.body.votes
+            track.playableURI = req.body.playableURI
+
+        	session.tracklist.push(track)
+            session.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.json({ message: 'Tracklist successfully updated!' });
+            });
+ 
         });
     });
 

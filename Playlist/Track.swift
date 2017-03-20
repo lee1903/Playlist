@@ -9,11 +9,13 @@
 import Foundation
 
 class Track: NSObject {
-    let name: String?
-    let playableURI: URL?
+    let name: String
+    let playableURI: URL
+    let votes: Int
     
     init(track: SPTPartialTrack) {
         self.name = track.name
         self.playableURI = track.playableUri
+        self.votes = 1
     }
 }
