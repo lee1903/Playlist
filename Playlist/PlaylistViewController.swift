@@ -30,9 +30,23 @@ class PlaylistViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBOutlet weak var onEndSession: UIBarButtonItem!
 
+    @IBAction func onEndSession(_ sender: Any) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "PlaylistSession")
+        userDefaults.synchronize()
+    }
+    
+    @IBAction func onRefresh(_ sender: Any) {
+        PlaylistClient.getTracklist(session: PlaylistSessionManager.sharedInstance.session!) { (tracklist, error) in
+            if error != nil {
+                print(error)
+            } else {
+                self.tableData = tracklist
+                self.tableView.reloadData()
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -58,6 +72,7 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! PlaylistCell
         
         cell.nameLabel.text = tableData![indexPath.row].name
+        cell.voteLabel.text = "\(tableData![indexPath.row].votes)"
         
         return cell
     }

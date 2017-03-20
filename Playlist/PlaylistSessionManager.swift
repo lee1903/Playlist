@@ -12,6 +12,8 @@ class PlaylistSessionManager {
     
     var session: PlaylistSession?
     
+    let userDefaults = UserDefaults.standard
+    
     class var sharedInstance: PlaylistSessionManager {
         struct Static {
             static let instance = PlaylistSessionManager()
@@ -20,7 +22,7 @@ class PlaylistSessionManager {
     }
     
     func hasSession() -> Bool {
-        let userDefaults = UserDefaults.standard
+        
         if let sessionObj:Any = userDefaults.object(forKey: "PlaylistSession") {
             print("playlist session available")
             
@@ -34,7 +36,7 @@ class PlaylistSessionManager {
     }
     
     func saveSession(session: PlaylistSession, completion:@escaping () -> ()) {
-        let userDefaults = UserDefaults.standard
+        
         let sessionData = NSKeyedArchiver.archivedData(withRootObject: session as Any)
         userDefaults.set(sessionData, forKey: "PlaylistSession")
         userDefaults.synchronize()

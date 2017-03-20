@@ -18,4 +18,10 @@ class Track: NSObject {
         self.playableURI = track.playableUri
         self.votes = 1
     }
+    
+    init(dictionary: NSDictionary) {
+        self.name = dictionary["name"] as! String
+        self.playableURI = URL(string: dictionary["playableURI"] as! String)!
+        self.votes = dictionary["votes"] as! Int
+    }
 }

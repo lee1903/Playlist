@@ -73,6 +73,16 @@ router.route('/sessions/name=:name')
         });
     });
 
+router.route('/sessions/tracklist/name=:name')
+    // GET session with user created title
+    .get(function(req, res) {
+        Session.findOne({name : req.params.name}, function(err, session) {
+            if (err)
+                res.send(err);
+            res.json(session.tracklist);
+        });
+    });
+
  
 module.exports = router;
  

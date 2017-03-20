@@ -160,11 +160,11 @@
 			isa = PBXGroup;
 			children = (
 				E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */,
-				E47351AC1E74CA2900966862 /* PlayerViewController.swift */,
 				E4913C071E7F1AFD007CBF70 /* CreateJoinSessionViewController.swift */,
 				E4913C0D1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift */,
-				E494D3111E777569001EB774 /* SearchViewController.swift */,
 				E4913BFA1E7F0654007CBF70 /* PlaylistViewController.swift */,
+				E47351AC1E74CA2900966862 /* PlayerViewController.swift */,
+				E494D3111E777569001EB774 /* SearchViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";

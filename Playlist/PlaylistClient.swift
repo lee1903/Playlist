@@ -21,6 +21,16 @@ class PlaylistClient {
         return date
     }
     
+    private class func getTracklistFromJSON(jsonArray: NSArray) -> [Track] {
+        var tracklist: [Track] = []
+        for obj in jsonArray {
+            let track = Track(dictionary: obj as! NSDictionary)
+            tracklist.append(track)
+        }
+        
+        return tracklist
+    }
+    
     //needs testing
     class func createPlaylistSession(session: PlaylistSession, completion:@escaping (String?, Error?) -> ()) {
         let url = PlaylistClient.apiURL + "sessions/"
@@ -68,6 +78,22 @@ class PlaylistClient {
             let res = response as! String
             
             completion(res, nil)
+            
+        }) { (dataTask: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        }
+        
+    }
+    
+    class func getTracklist(session: PlaylistSession, completion:@escaping ([Track]?, Error?) -> ()) {
+        let url = apiURL + "sessions/tracklist/name=\(session.name)"
+        
+        http.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
+            
+            let resArray = response as! NSArray
+            let tracklist = getTracklistFromJSON(jsonArray: resArray)
+            
+            completion(tracklist, nil)
             
         }) { (dataTask: URLSessionDataTask?, error: Error) in
             completion(nil, error)
