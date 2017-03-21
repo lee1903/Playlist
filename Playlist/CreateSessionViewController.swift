@@ -24,7 +24,7 @@ class CreateSessionViewController: UIViewController {
     }
     
     @IBAction func onDone(_ sender: Any) {
-        if nameTextField.text != nil {
+        if nameTextField.text != nil && !nameTextField.text!.contains("."){
             let playlistSession = PlaylistSession(name: nameTextField.text!)
             PlaylistClient.createPlaylistSession(session: playlistSession, completion: { (response, error) in
                 if error != nil {

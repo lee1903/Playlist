@@ -22,6 +22,8 @@ class PlaylistViewController: UIViewController {
         tableView.dataSource = self
         
         navBar.topItem?.title = PlaylistSessionManager.sharedInstance.session?.name
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.updateTracklist), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -29,6 +31,17 @@ class PlaylistViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func updateTracklist() {
+        PlaylistClient.getTracklist(session: PlaylistSessionManager.sharedInstance.session!) { (tracklist, error) in
+            if error != nil {
+                print(error)
+            } else {
+                self.tableData = tracklist
+                self.tableView.reloadData()
+            }
+        }
     }
 
     @IBAction func onEndSession(_ sender: Any) {
@@ -40,14 +53,7 @@ class PlaylistViewController: UIViewController {
     }
     
     @IBAction func onRefresh(_ sender: Any) {
-        PlaylistClient.getTracklist(session: PlaylistSessionManager.sharedInstance.session!) { (tracklist, error) in
-            if error != nil {
-                print(error)
-            } else {
-                self.tableData = tracklist
-                self.tableView.reloadData()
-            }
-        }
+        updateTracklist()
     }
     /*
     // MARK: - Navigation
@@ -75,7 +81,12 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.nameLabel.text = tableData![indexPath.row].name
         cell.voteLabel.text = "\(tableData![indexPath.row].votes)"
+        cell.track = tableData![indexPath.row]
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
     }
 }

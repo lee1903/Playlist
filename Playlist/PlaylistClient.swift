@@ -39,7 +39,7 @@ class PlaylistClient {
         http.post(url, parameters: params, progress: { (progress: Progress) -> Void in
         }, success: { (dataTask: URLSessionDataTask, response: Any?) -> Void in
             
-            let resDictionary = response as! NSDictionary
+            let resDictionary = response! as! NSDictionary
             let res = resDictionary["message"] as! String
             
             completion(res, nil)
@@ -57,7 +57,7 @@ class PlaylistClient {
         
         http.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
-            let res = response as! NSDictionary
+            let res = response! as! NSDictionary
             let session = PlaylistSession(dictionary: res)
             
             completion(session, nil)
@@ -74,7 +74,7 @@ class PlaylistClient {
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
-            let resDictionary = response as! NSDictionary
+            let resDictionary = response! as! NSDictionary
             let res = resDictionary["message"] as! String
             
             completion(res, nil)
@@ -90,7 +90,7 @@ class PlaylistClient {
         
         http.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
-            let resArray = response as! NSArray
+            let resArray = response! as! NSArray
             let tracklist = getTracklistFromJSON(jsonArray: resArray)
             
             completion(tracklist, nil)
@@ -99,5 +99,22 @@ class PlaylistClient {
             completion(nil, error)
         }
         
+    }
+    
+    class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
+        let url = apiURL + "sessions/name=\(session.name)"
+        
+        let params = ["name" : track.name, "updateVote" : "1"]
+        
+        http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
+            
+            let resDictionary = response! as! NSDictionary
+            let res = resDictionary["message"] as! String
+            
+            completion(res, nil)
+            
+        }) { (dataTask: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        }
     }
 }

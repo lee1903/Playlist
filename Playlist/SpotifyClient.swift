@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AFNetworking
 
 class SpotifyClient {
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
@@ -15,6 +16,7 @@ class SpotifyClient {
     let tokenRefreshServiceURL = "http://localhost:1235/refresh"
     
     var session: SPTSession!
+    var currentUser: User!
     
     let userDefaults = UserDefaults.standard
     
@@ -61,10 +63,57 @@ class SpotifyClient {
             })
         } else {
             print("session valid")
-            //self.playUsingSession(sessionObj: session)
+            _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SpotifyClient.setSpotifyUser), userInfo: nil, repeats: false)
             return true
         }
         
         return returnValue
+    }
+    
+    @objc private func setSpotifyUser() {
+        self.getSpotifyUser(completion: { (user, error) in
+            if error != nil {
+                print(error)
+            } else {
+                if user != nil{
+                    self.currentUser = user
+                    print("successfully set user")
+                } else {
+                    print("recursively calling self to get user display name")
+                    self.setSpotifyUser()
+                }
+            }
+        })
+    }
+    
+    private func getSpotifyUser(completion:@escaping (User?, Error?) -> ()) {
+        let url = "https://api.spotify.com/v1/me"
+        
+        let token = String(format: "Bearer %@", session.accessToken)
+        
+        let manager = AFHTTPSessionManager(baseURL: URL(string: url))
+        
+        manager.requestSerializer.setValue(token, forHTTPHeaderField: "Authorization")
+        manager.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
+            
+            let resDictionary = response! as! NSDictionary
+            
+            print(resDictionary)
+            
+            if let name = resDictionary["display_name"] as? String {
+                let id = resDictionary["id"] as! String
+                
+                let user = User(name: name, id: id)
+                
+                completion(user, nil)
+            } else {
+                print("error retrieving user info from spotify")
+                completion(nil, nil)
+            }
+            
+            
+        }) { (dataTask: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        }
     }
 }

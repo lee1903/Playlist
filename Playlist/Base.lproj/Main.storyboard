@@ -198,7 +198,13 @@
                             <constraint firstItem="mHm-Kk-IkO" firstAttribute="centerX" secondItem="hhb-HM-6G3" secondAttribute="centerX" id="yKj-zl-oqU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="F33-mk-BNv"/>
+                    <navigationItem key="navigationItem" id="F33-mk-BNv">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="beg-TQ-qH9">
+                            <connections>
+                                <action selector="onLogout:" destination="4kp-ij-cWb" id="UFf-LC-2a1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bS0-Ri-bLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -313,12 +319,13 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ud-IS-QGr" id="dGS-46-aYo">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Motto - Drake" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rds-cH-Vcz">
-                                                    <rect key="frame" x="21" y="11" width="141" height="21"/>
+                                                    <rect key="frame" x="21" y="11" width="279" height="21"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="279" id="3ZK-Bh-QS5"/>
                                                         <constraint firstAttribute="height" constant="21" id="eLg-eP-Hyw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -326,7 +333,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNw-i0-8q7">
-                                                    <rect key="frame" x="346" y="11" width="21" height="21"/>
+                                                    <rect key="frame" x="320" y="11" width="21" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="5ZM-Cy-OB8"/>
                                                     </constraints>
@@ -334,18 +341,34 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vOG-qA-JYp">
+                                                    <rect key="frame" x="350" y="13" width="17" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="Pry-cw-v9V"/>
+                                                        <constraint firstAttribute="width" constant="17" id="RHb-aW-X1F"/>
+                                                    </constraints>
+                                                    <state key="normal" title="+" image="Circle-Up"/>
+                                                    <connections>
+                                                        <action selector="onUpvote:" destination="3ud-IS-QGr" eventType="touchUpInside" id="u9A-UK-NYg"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="rds-cH-Vcz" secondAttribute="bottom" constant="3" id="IJU-S2-BUU"/>
+                                                <constraint firstItem="vOG-qA-JYp" firstAttribute="leading" secondItem="jNw-i0-8q7" secondAttribute="trailing" constant="9" id="Kfp-D4-LxH"/>
+                                                <constraint firstItem="vOG-qA-JYp" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="top" constant="13" id="Lj9-ZI-nZP"/>
                                                 <constraint firstItem="jNw-i0-8q7" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="topMargin" constant="3" id="MBS-lF-SVB"/>
+                                                <constraint firstAttribute="trailing" secondItem="vOG-qA-JYp" secondAttribute="trailing" constant="8" id="cFK-DE-mbV"/>
                                                 <constraint firstItem="rds-cH-Vcz" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="topMargin" constant="3" id="lPS-do-x5E"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="jNw-i0-8q7" secondAttribute="bottom" constant="3" id="mc6-Bu-BDj"/>
-                                                <constraint firstItem="jNw-i0-8q7" firstAttribute="trailing" secondItem="dGS-46-aYo" secondAttribute="trailingMargin" id="nLZ-xw-Bfn"/>
+                                                <constraint firstItem="jNw-i0-8q7" firstAttribute="trailing" secondItem="dGS-46-aYo" secondAttribute="trailingMargin" constant="-26" id="nLZ-xw-Bfn"/>
+                                                <constraint firstAttribute="bottom" secondItem="vOG-qA-JYp" secondAttribute="bottom" constant="13.5" id="yXg-5i-BsO"/>
                                                 <constraint firstItem="rds-cH-Vcz" firstAttribute="leading" secondItem="dGS-46-aYo" secondAttribute="leadingMargin" constant="13" id="zfy-Hf-Jdc"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="nameLabel" destination="rds-cH-Vcz" id="Zb3-aj-tgL"/>
+                                            <outlet property="voteButton" destination="vOG-qA-JYp" id="AvF-Gt-0MN"/>
                                             <outlet property="voteLabel" destination="jNw-i0-8q7" id="YM3-qy-nJH"/>
                                         </connections>
                                     </tableViewCell>
@@ -421,4 +444,7 @@
             <point key="canvasLocation" x="589.60000000000002" y="1692.5037481259371"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Circle-Up" width="100" height="100"/>
+    </resources>
 </document>
