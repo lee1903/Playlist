@@ -71,11 +71,12 @@ class PlaylistClient {
     class func addTrackToPlaylist(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
         let url = apiURL + "sessions/name=\(session.name)"
         
-        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)"]
+        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)"]
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
-            let res = response as! String
+            let resDictionary = response as! NSDictionary
+            let res = resDictionary["message"] as! String
             
             completion(res, nil)
             

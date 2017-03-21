@@ -11,10 +11,12 @@ import Foundation
 class SpotifySearchItem: NSObject {
     var name: String?
     let type: String?
+    let object: Any?
     
     init(type: String, item: Any) {
         self.type = type
         self.name = ""
+        self.object = item
         
         switch type {
         case "artist":

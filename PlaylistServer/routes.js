@@ -85,6 +85,8 @@ router.route('/sessions/name=:name')
             } else {
             	var track = new Track()
 	            track.name = req.body.name
+	            track.artist = req.body.artist
+	            track.title = req.body.title
 	            track.votes = req.body.votes
 	            track.playableURI = req.body.playableURI
 

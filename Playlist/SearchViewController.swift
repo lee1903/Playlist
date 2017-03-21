@@ -123,6 +123,20 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if queryTypeSegmentedControl.selectedSegmentIndex == 0 {
+            let trackObj = tableData?[indexPath.row].object as! SPTPartialTrack
+            let track = Track(track: trackObj)
+            PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track, completion: { (response, error) in
+                if error != nil {
+                    print(error)
+                } else {
+                    print(response)
+                }
+            })
+        }
+    }
+    
 }
 
 extension SearchViewController: UISearchBarDelegate {
