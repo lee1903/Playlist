@@ -185,6 +185,9 @@
                                     <constraint firstAttribute="width" constant="142" id="FVx-xP-Fsu"/>
                                 </constraints>
                                 <state key="normal" title="Join Playlist Session"/>
+                                <connections>
+                                    <segue destination="iGn-ND-bDe" kind="show" id="fKn-Cd-kLV"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -201,10 +204,54 @@
             </objects>
             <point key="canvasLocation" x="1528.8" y="1692.5037481259371"/>
         </scene>
+        <!--Join-->
+        <scene sceneID="m5n-cC-tRH">
+            <objects>
+                <viewController id="iGn-ND-bDe" customClass="JoinSessionViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sk5-HN-g6f"/>
+                        <viewControllerLayoutGuide type="bottom" id="yw1-eY-htl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="C3R-Bu-vP3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Enter name..." borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kyY-KC-M06">
+                                <rect key="frame" x="61" y="115" width="252" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="252" id="dyG-lJ-Avx"/>
+                                    <constraint firstAttribute="height" constant="30" id="n0O-ZT-xPd"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kyY-KC-M06" firstAttribute="centerX" secondItem="C3R-Bu-vP3" secondAttribute="centerX" id="8ja-3T-8J0"/>
+                            <constraint firstItem="kyY-KC-M06" firstAttribute="top" secondItem="sk5-HN-g6f" secondAttribute="bottom" constant="51" id="vVe-fM-oOM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Join" id="sTW-E7-lpH">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="9hB-jK-FCg">
+                            <connections>
+                                <action selector="onJoinSession:" destination="iGn-ND-bDe" id="cei-SX-5Qe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nameTextField" destination="kyY-KC-M06" id="Bki-1u-e4B"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E6C-gy-HRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2473" y="2252"/>
+        </scene>
         <!--Create-->
         <scene sceneID="Aqj-2j-5Wp">
             <objects>
-                <viewController id="n3E-Bs-8C2" customClass="CreatePlaylistSessionViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="n3E-Bs-8C2" customClass="CreateSessionViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tQK-wu-BtU"/>
                         <viewControllerLayoutGuide type="bottom" id="LLi-Nf-kfN"/>

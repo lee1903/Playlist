@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CreatePlaylistSessionViewController: UIViewController {
+class CreateSessionViewController: UIViewController {
     
     @IBOutlet weak var nameTextField: UITextField!
 

@@ -26,8 +26,9 @@
 		E4913C081E7F1AFD007CBF70 /* CreateJoinSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C071E7F1AFD007CBF70 /* CreateJoinSessionViewController.swift */; };
 		E4913C0A1E7F1B7E007CBF70 /* PlaylistClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C091E7F1B7E007CBF70 /* PlaylistClient.swift */; };
 		E4913C0C1E7F1BA7007CBF70 /* PlaylistSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C0B1E7F1BA7007CBF70 /* PlaylistSession.swift */; };
-		E4913C0E1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C0D1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift */; };
+		E4913C0E1E7F1EB0007CBF70 /* CreateSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C0D1E7F1EB0007CBF70 /* CreateSessionViewController.swift */; };
 		E4913C101E805E39007CBF70 /* PlaylistSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C0F1E805E39007CBF70 /* PlaylistSessionManager.swift */; };
+		E4913C141E818D2F007CBF70 /* JoinSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */; };
 		E494D3121E777569001EB774 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E494D3111E777569001EB774 /* SearchViewController.swift */; };
 		ECB4CADFD031A76E7B7E0202 /* Pods_Playlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E2609A37E95B04D6B89DDE /* Pods_Playlist.framework */; };
 /* End PBXBuildFile section */
@@ -58,8 +59,9 @@
 		E4913C071E7F1AFD007CBF70 /* CreateJoinSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateJoinSessionViewController.swift; sourceTree = "<group>"; };
 		E4913C091E7F1B7E007CBF70 /* PlaylistClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistClient.swift; sourceTree = "<group>"; };
 		E4913C0B1E7F1BA7007CBF70 /* PlaylistSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistSession.swift; sourceTree = "<group>"; };
-		E4913C0D1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePlaylistSessionViewController.swift; sourceTree = "<group>"; };
+		E4913C0D1E7F1EB0007CBF70 /* CreateSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateSessionViewController.swift; sourceTree = "<group>"; };
 		E4913C0F1E805E39007CBF70 /* PlaylistSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistSessionManager.swift; sourceTree = "<group>"; };
+		E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinSessionViewController.swift; sourceTree = "<group>"; };
 		E494D3111E777569001EB774 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,7 +163,8 @@
 			children = (
 				E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */,
 				E4913C071E7F1AFD007CBF70 /* CreateJoinSessionViewController.swift */,
-				E4913C0D1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift */,
+				E4913C0D1E7F1EB0007CBF70 /* CreateSessionViewController.swift */,
+				E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */,
 				E4913BFA1E7F0654007CBF70 /* PlaylistViewController.swift */,
 				E47351AC1E74CA2900966862 /* PlayerViewController.swift */,
 				E494D3111E777569001EB774 /* SearchViewController.swift */,
@@ -306,7 +309,8 @@
 				E42D34A41E7787E200C3A70B /* SearchDataCell.swift in Sources */,
 				E4913BFF1E7F0858007CBF70 /* Track.swift in Sources */,
 				E47351AB1E74CA2900966862 /* AppDelegate.swift in Sources */,
-				E4913C0E1E7F1EB0007CBF70 /* CreatePlaylistSessionViewController.swift in Sources */,
+				E4913C0E1E7F1EB0007CBF70 /* CreateSessionViewController.swift in Sources */,
+				E4913C141E818D2F007CBF70 /* JoinSessionViewController.swift in Sources */,
 				E4913BF91E7EF7CB007CBF70 /* SpotifySearchItem.swift in Sources */,
 				E4913BFD1E7F078B007CBF70 /* PlaylistCell.swift in Sources */,
 			);

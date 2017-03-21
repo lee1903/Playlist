@@ -27,7 +27,7 @@ class PlaylistSession: NSObject, NSCoding {
         let date = dateFormatter.date(from: dictionary["date"] as! String)
         self.date = date!
         
-        let tracklistArray = dictionary["tracklist"] as! NSArray
+        //let tracklistArray = dictionary["tracklist"] as! NSArray
         
         //create track objects from tracklistArray
         self.tracklist = []

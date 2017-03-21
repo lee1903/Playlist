@@ -35,6 +35,8 @@ class PlaylistViewController: UIViewController {
         let userDefaults = UserDefaults.standard
         userDefaults.removeObject(forKey: "PlaylistSession")
         userDefaults.synchronize()
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
     }
     
     @IBAction func onRefresh(_ sender: Any) {

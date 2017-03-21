@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayPlayerView), name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayCreateJoinSessionView), name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
+        
         if !SpotifyClient.sharedInstance.authenticateSpotifySession() {
             print("user needs to login")
             let vc = storyboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
@@ -56,14 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 SpotifyClient.sharedInstance.authenticateSpotifySession()
                 
-                self.userDidLogin()
+                self.displayCreateJoinSessionView()
             })
         }
         
         return false
     }
     
-    func userDidLogin() {
+    func displayCreateJoinSessionView() {
         let vc = storyboard.instantiateViewController(withIdentifier: "CreateJoinSessionNavController")
         window?.rootViewController = vc
     }

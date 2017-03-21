@@ -31,7 +31,6 @@ class PlaylistClient {
         return tracklist
     }
     
-    //needs testing
     class func createPlaylistSession(session: PlaylistSession, completion:@escaping (String?, Error?) -> ()) {
         let url = PlaylistClient.apiURL + "sessions/"
         let params = ["name" : "\(session.name)", "date": "\(getDateString(currentDate: session.date))"]
