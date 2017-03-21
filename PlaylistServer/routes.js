@@ -58,18 +58,43 @@ router.route('/sessions/name=:name')
             if (err)
                 res.send(err);
 
-            var track = new Track()
-            track.name = req.body.name
-            track.votes = req.body.votes
-            track.playableURI = req.body.playableURI
+            if(req.body.updateVote != null) {
+            	for(var i = 0; i < session.tracklist.length; i++) {
+            		if(session.tracklist[i].name == req.body.name) {
+            			var track = session.tracklist[i]
+            			track.votes = track.votes + 1
+            			session.tracklist.splice(i, 1)
+            			var didInsert = 0
+            			for(var k = 0; k < i; k++) {
+            				if(session.tracklist[k].votes < track.votes){
+            					session.tracklist.splice(k, 0, track)
+            					didInsert = 1
+            					break
+            				}
+            			}
+            			if(didInsert == 0) {
+            				session.tracklist.splice(i, 0, track)
+            			}
+            		}
+            	}
+            	session.save(function(err) {
+	                if (err)
+	                    res.send(err);
+	                res.json({ message: 'Success'})
+	            });
+            } else {
+            	var track = new Track()
+	            track.name = req.body.name
+	            track.votes = req.body.votes
+	            track.playableURI = req.body.playableURI
 
-        	session.tracklist.push(track)
-            session.save(function(err) {
-                if (err)
-                    res.send(err);
-                res.json({ message: 'Tracklist successfully updated!' });
-            });
- 
+	        	session.tracklist.push(track)
+	            session.save(function(err) {
+	                if (err)
+	                    res.send(err);
+	                res.json({ message: 'Tracklist successfully updated!' });
+	            });
+            }
         });
     });
 
