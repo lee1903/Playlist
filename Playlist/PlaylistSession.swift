@@ -12,11 +12,13 @@ class PlaylistSession: NSObject, NSCoding {
     let name: String
     let date: Date
     let tracklist: [Track]
+    let admin: Bool
     
     init(name: String) {
         self.name = name
         self.date = Date()
         self.tracklist = []
+        self.admin = true
     }
     
     init(dictionary: NSDictionary) {
@@ -31,16 +33,19 @@ class PlaylistSession: NSObject, NSCoding {
         
         //create track objects from tracklistArray
         self.tracklist = []
+        self.admin = false
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.date, forKey: "date")
+        aCoder.encode(self.admin, forKey: "admin")
     }
     
     required init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
         self.date = aDecoder.decodeObject(forKey: "date") as? Date ?? Date()
+        self.admin = aDecoder.decodeBool(forKey: "admin")
         self.tracklist = []
     }
 }
