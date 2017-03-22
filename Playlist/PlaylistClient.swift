@@ -70,7 +70,7 @@ class PlaylistClient {
     class func addTrackToPlaylist(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
         let url = apiURL + "sessions/name=\(session.name)"
         
-        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)"]
+        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)"]
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
@@ -104,7 +104,7 @@ class PlaylistClient {
     class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
         let url = apiURL + "sessions/name=\(session.name)"
         
-        let params = ["name" : track.name, "updateVote" : "1"]
+        let params = ["trackName" : track.name, "updateVote" : "1", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)"]
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             

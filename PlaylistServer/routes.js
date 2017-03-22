@@ -5,6 +5,7 @@ var router = express.Router();
  
 var Session = require('./models/session');
 var Track = require('./models/track')
+var User = require('./models/user')
  
 // Middleware for all this routers requests
 router.use(function timeLog(req, res, next) {
@@ -60,13 +61,29 @@ router.route('/sessions/name=:name')
 
             if(req.body.updateVote != null) {
             	for(var i = 0; i < session.tracklist.length; i++) {
-            		if(session.tracklist[i].name == req.body.name) {
+            		if(session.tracklist[i].name == req.body.trackName) {
+            			//track to add user to
             			var track = session.tracklist[i]
-            			track.votes = track.votes + 1
+
+            			//create user object to add
+            			// var user = new User()
+            			// user.name = req.body.userName
+            			// user.id = req.body.userId
+
+            			//adds user to track vote list
+            			track.votes.push(req.body.userId)
+
+            			// console.log(session)
+            			// console.log(track.votes)
+            			// console.log(track)
+
+            			//removes track from tracklist
             			session.tracklist.splice(i, 1)
+
+            			//adds track back into tracklist in correct position based on new vote count
             			var didInsert = 0
             			for(var k = 0; k < i; k++) {
-            				if(session.tracklist[k].votes < track.votes){
+            				if(session.tracklist[k].votes.length < track.votes.length){
             					session.tracklist.splice(k, 0, track)
             					didInsert = 1
             					break
@@ -87,8 +104,14 @@ router.route('/sessions/name=:name')
 	            track.name = req.body.name
 	            track.artist = req.body.artist
 	            track.title = req.body.title
-	            track.votes = req.body.votes
 	            track.playableURI = req.body.playableURI
+
+	            // var user = new User()
+	            // user.name = req.body.userName
+	            // user.id = req.body.userId
+
+	            track.votes = []
+	            track.votes.push(req.body.userId)
 
 	        	session.tracklist.push(track)
 	            session.save(function(err) {

@@ -80,8 +80,11 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! PlaylistCell
         
         cell.nameLabel.text = tableData![indexPath.row].name
-        cell.voteLabel.text = "\(tableData![indexPath.row].votes)"
+        cell.voteLabel.text = "\(tableData![indexPath.row].votes.count)"
         cell.track = tableData![indexPath.row]
+        if tableData![indexPath.row].didVote {
+            cell.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)
+        }
         
         return cell
     }

@@ -13,24 +13,37 @@ class Track: NSObject {
     let artist: String
     let title: String
     let playableURI: URL
-    let votes: Int
+    //var votes: [User]
+    var votes: [String]
+    let didVote: Bool
     
     init(track: SPTPartialTrack) {
         self.playableURI = track.playableUri
-        self.votes = 1
+        self.votes = []
         self.title = track.name
         
         let artistObj = track.artists[0] as! SPTPartialArtist
         self.artist = artistObj.name
         
         self.name = self.title + " - " + self.artist
+        self.didVote = true
     }
     
     init(dictionary: NSDictionary) {
         self.name = dictionary["name"] as! String
         self.artist = dictionary["artist"] as! String
         self.title = dictionary["title"] as! String
+        self.votes = []
         self.playableURI = URL(string: dictionary["playableURI"] as! String)!
-        self.votes = dictionary["votes"] as! Int
+        
+        let votesDictionary = dictionary["votes"] as! NSArray
+        for obj in votesDictionary {
+            //let user = User(dictionary: obj as! NSDictionary)
+            self.votes.append(obj as! String)
+        }
+        
+        print(SpotifyClient.sharedInstance.currentUser.id)
+        self.didVote = self.votes.contains(SpotifyClient.sharedInstance.currentUser.id)
+        
     }
 }

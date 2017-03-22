@@ -63,7 +63,7 @@ class SpotifyClient {
             })
         } else {
             print("session valid")
-            _ = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(SpotifyClient.setSpotifyUser), userInfo: nil, repeats: false)
+            self.setSpotifyUser()
             return true
         }
         

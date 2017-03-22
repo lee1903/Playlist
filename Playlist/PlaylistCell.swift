@@ -29,13 +29,15 @@ class PlaylistCell: UITableViewCell {
     }
 
     @IBAction func onUpvote(_ sender: Any) {
-        PlaylistClient.upvoteTrack(session: PlaylistSessionManager.sharedInstance.session!, track: track!) { (response, error) in
-            if error != nil{
-                print(error)
-            } else{
-                print(response)
-                self.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
+        if !(track?.didVote)! {
+            PlaylistClient.upvoteTrack(session: PlaylistSessionManager.sharedInstance.session!, track: track!) { (response, error) in
+                if error != nil{
+                    print(error)
+                } else{
+                    print(response)
+                    //self.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
+                }
             }
         }
     }
