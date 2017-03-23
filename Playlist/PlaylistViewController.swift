@@ -156,18 +156,21 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.nowPlayingImage.isHidden = false
                 cell.nameLabel.textColor = UIColor.red
                 cell.artistLabel.textColor = UIColor(red:0.41, green:0.41, blue:0.41, alpha:1.0)
+                cell.albumCover.alpha = 1
             } else if indexPath.row < currentIndex {
                 cell.voteButton.isHidden = true
                 cell.voteLabel.isHidden = true
                 cell.nowPlayingImage.isHidden = true
                 cell.nameLabel.textColor = UIColor(red:0.82, green:0.83, blue:0.83, alpha:1.0)
                 cell.artistLabel.textColor = UIColor(red:0.82, green:0.83, blue:0.83, alpha:1.0)
+                cell.albumCover.alpha = 0.3
             } else {
                 cell.voteButton.isHidden = false
                 cell.voteLabel.isHidden = false
                 cell.nowPlayingImage.isHidden = true
                 cell.nameLabel.textColor = UIColor.black
                 cell.artistLabel.textColor = UIColor(red:0.41, green:0.41, blue:0.41, alpha:1.0)
+                cell.albumCover.alpha = 1
             }
         } else {
             cell.nowPlayingImage.isHidden = true
