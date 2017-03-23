@@ -13,12 +13,14 @@ class PlaylistSession: NSObject, NSCoding {
     let date: Date
     var tracklist: [Track]
     let admin: Bool
+    var currentTrackIndex: Int?
     
     init(name: String) {
         self.name = name
         self.date = Date()
         self.tracklist = []
         self.admin = true
+        self.currentTrackIndex = nil
     }
     
     init(dictionary: NSDictionary) {
@@ -34,6 +36,7 @@ class PlaylistSession: NSObject, NSCoding {
         //create track objects from tracklistArray
         self.tracklist = []
         self.admin = false
+        self.currentTrackIndex = nil
     }
     
     func encode(with aCoder: NSCoder) {

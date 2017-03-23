@@ -38,9 +38,30 @@ class PlayerViewController: UIViewController {
     }
     @IBAction func onStartPlaying(_ sender: Any) {
         if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
+            PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
             let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[0]
             self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
      
+        }
+    }
+    
+    @IBAction func onNextSong(_ sender: Any) {
+        if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+            if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
+                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
+                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
+                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+            }
+        }
+    }
+    
+    @IBAction func onPreviousSong(_ sender: Any) {
+        if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+            if currentIndex - 1 >= 0 {
+                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex - 1
+                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex - 1]
+                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+            }
         }
     }
 }

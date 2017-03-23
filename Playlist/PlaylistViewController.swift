@@ -86,13 +86,21 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         if tableData![indexPath.row].didVote {
             cell.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)
         }
-        if indexPath.row == 0 {
-            cell.voteButton.isHidden = true
-            cell.voteLabel.isHidden = true
+        
+        if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+            if indexPath.row == currentIndex {
+                cell.voteButton.isHidden = true
+                cell.voteLabel.isHidden = true
+                cell.nowPlayingImage.isHidden = false
+            } else {
+                cell.voteButton.isHidden = false
+                cell.voteLabel.isHidden = false
+                cell.nowPlayingImage.isHidden = true
+            }
         } else {
             cell.nowPlayingImage.isHidden = true
         }
-        
+
         return cell
     }
     
