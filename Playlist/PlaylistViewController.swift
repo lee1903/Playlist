@@ -38,6 +38,7 @@ class PlaylistViewController: UIViewController {
             if error != nil {
                 print(error)
             } else {
+                PlaylistSessionManager.sharedInstance.session?.tracklist = tracklist!
                 self.tableData = tracklist
                 self.tableView.reloadData()
             }
@@ -84,6 +85,12 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         cell.track = tableData![indexPath.row]
         if tableData![indexPath.row].didVote {
             cell.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)
+        }
+        if indexPath.row == 0 {
+            cell.voteButton.isHidden = true
+            cell.voteLabel.isHidden = true
+        } else {
+            cell.nowPlayingImage.isHidden = true
         }
         
         return cell

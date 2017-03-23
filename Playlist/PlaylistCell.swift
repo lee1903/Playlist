@@ -15,6 +15,8 @@ class PlaylistCell: UITableViewCell {
     
     @IBOutlet weak var voteButton: UIButton!
     
+    @IBOutlet weak var nowPlayingImage: UIImageView!
+    
     var track: Track?
     
     override func awakeFromNib() {

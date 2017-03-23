@@ -62,36 +62,39 @@ router.route('/sessions/name=:name')
             if(req.body.updateVote != null) {
             	for(var i = 0; i < session.tracklist.length; i++) {
             		if(session.tracklist[i].name == req.body.trackName) {
-            			//track to add user to
-            			var track = session.tracklist[i]
+            			if(i != 0) {
+            				//track to add user to
+	            			var track = session.tracklist[i]
 
-            			//create user object to add
-            			// var user = new User()
-            			// user.name = req.body.userName
-            			// user.id = req.body.userId
+	            			//create user object to add
+	            			// var user = new User()
+	            			// user.name = req.body.userName
+	            			// user.id = req.body.userId
 
-            			//adds user to track vote list
-            			track.votes.push(req.body.userId)
+	            			//adds user to track vote list
+	            			track.votes.push(req.body.userId)
 
-            			// console.log(session)
-            			// console.log(track.votes)
-            			// console.log(track)
+	            			// console.log(session)
+	            			// console.log(track.votes)
+	            			// console.log(track)
 
-            			//removes track from tracklist
-            			session.tracklist.splice(i, 1)
+	            			//removes track from tracklist
+	            			session.tracklist.splice(i, 1)
 
-            			//adds track back into tracklist in correct position based on new vote count
-            			var didInsert = 0
-            			for(var k = 0; k < i; k++) {
-            				if(session.tracklist[k].votes.length < track.votes.length){
-            					session.tracklist.splice(k, 0, track)
-            					didInsert = 1
-            					break
-            				}
+	            			//adds track back into tracklist in correct position based on new vote count
+            				var didInsert = 0
+	            			for(var k = 1; k < i; k++) {
+	            				if(session.tracklist[k].votes.length < track.votes.length){
+	            					session.tracklist.splice(k, 0, track)
+	            					didInsert = 1
+	            					break
+	            				}
+	            			}
+	            			if(didInsert == 0) {
+	            				session.tracklist.splice(i, 0, track)
+	            			}
             			}
-            			if(didInsert == 0) {
-            				session.tracklist.splice(i, 0, track)
-            			}
+            			break
             		}
             	}
             	session.save(function(err) {

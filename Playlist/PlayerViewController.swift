@@ -36,6 +36,13 @@ class PlayerViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func onStartPlaying(_ sender: Any) {
+        if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
+            let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[0]
+            self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+     
+        }
+    }
 }
 
 extension PlayerViewController: SPTAudioStreamingDelegate {
@@ -76,11 +83,14 @@ extension PlayerViewController: SPTAudioStreamingDelegate {
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         print("audio stream logged in")
-//        player?.playSpotifyURI("spotify:track:58s6EuEYJdlb0kO7awm3Vp", startingWith: 0, startingWithPosition: 0, callback: { (error) in
-//            if error != nil {
-//                print("error playing uri")
-//                print(error)
-//            }
-//        })
+    }
+    
+    func playSong(spotifyURI: String) {
+        player?.playSpotifyURI(spotifyURI, startingWith: 0, startingWithPosition: 0, callback: { (error) in
+            if error != nil {
+                print("error playing uri")
+                print(error)
+            }
+        })
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 class PlaylistSession: NSObject, NSCoding {
     let name: String
     let date: Date
-    let tracklist: [Track]
+    var tracklist: [Track]
     let admin: Bool
     
     init(name: String) {

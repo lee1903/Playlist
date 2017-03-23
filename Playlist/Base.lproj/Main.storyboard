@@ -21,7 +21,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6Q-uc-UP7">
+                                <rect key="frame" x="143" y="443" width="88" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="CKn-GR-aWl"/>
+                                    <constraint firstAttribute="height" constant="30" id="Ug1-m9-3Yy"/>
+                                </constraints>
+                                <state key="normal" title="Start Playing"/>
+                                <connections>
+                                    <action selector="onStartPlaying:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hxd-U6-Wom"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Z6Q-uc-UP7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0cq-ap-A0d"/>
+                            <constraint firstItem="Z6Q-uc-UP7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="423" id="XDV-O8-uh5"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Player" id="RDB-y1-DJQ"/>
                 </viewController>
@@ -352,13 +369,23 @@
                                                         <action selector="onUpvote:" destination="3ud-IS-QGr" eventType="touchUpInside" id="u9A-UK-NYg"/>
                                                     </connections>
                                                 </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Now-Playing" translatesAutoresizingMaskIntoConstraints="NO" id="lQc-fr-whO">
+                                                    <rect key="frame" x="337" y="9" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="25x-7r-vmU"/>
+                                                        <constraint firstAttribute="width" constant="25" id="EdJ-9M-7PF"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="lQc-fr-whO" secondAttribute="bottom" constant="9.5" id="Fx6-MX-lEi"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="rds-cH-Vcz" secondAttribute="bottom" constant="3" id="IJU-S2-BUU"/>
                                                 <constraint firstItem="vOG-qA-JYp" firstAttribute="leading" secondItem="jNw-i0-8q7" secondAttribute="trailing" constant="9" id="Kfp-D4-LxH"/>
                                                 <constraint firstItem="vOG-qA-JYp" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="top" constant="13" id="Lj9-ZI-nZP"/>
                                                 <constraint firstItem="jNw-i0-8q7" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="topMargin" constant="3" id="MBS-lF-SVB"/>
                                                 <constraint firstAttribute="trailing" secondItem="vOG-qA-JYp" secondAttribute="trailing" constant="8" id="cFK-DE-mbV"/>
+                                                <constraint firstAttribute="trailing" secondItem="lQc-fr-whO" secondAttribute="trailing" constant="13" id="gIo-Px-Y11"/>
+                                                <constraint firstItem="lQc-fr-whO" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="top" constant="9" id="hzn-Fn-HjT"/>
                                                 <constraint firstItem="rds-cH-Vcz" firstAttribute="top" secondItem="dGS-46-aYo" secondAttribute="topMargin" constant="3" id="lPS-do-x5E"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="jNw-i0-8q7" secondAttribute="bottom" constant="3" id="mc6-Bu-BDj"/>
                                                 <constraint firstItem="jNw-i0-8q7" firstAttribute="trailing" secondItem="dGS-46-aYo" secondAttribute="trailingMargin" constant="-26" id="nLZ-xw-Bfn"/>
@@ -368,6 +395,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="nameLabel" destination="rds-cH-Vcz" id="Zb3-aj-tgL"/>
+                                            <outlet property="nowPlayingImage" destination="lQc-fr-whO" id="Sa0-rZ-AoF"/>
                                             <outlet property="voteButton" destination="vOG-qA-JYp" id="AvF-Gt-0MN"/>
                                             <outlet property="voteLabel" destination="jNw-i0-8q7" id="YM3-qy-nJH"/>
                                         </connections>
@@ -446,5 +474,6 @@
     </scenes>
     <resources>
         <image name="Circle-Up" width="100" height="100"/>
+        <image name="Now-Playing" width="100" height="100"/>
     </resources>
 </document>
