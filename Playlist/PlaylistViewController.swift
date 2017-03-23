@@ -41,6 +41,11 @@ class PlaylistViewController: UIViewController {
                 PlaylistSessionManager.sharedInstance.session?.tracklist = tracklist!
                 self.tableData = tracklist
                 self.tableView.reloadData()
+                
+                if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+                    let indexPath = IndexPath(row: currentIndex, section: 0)
+                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+                }
             }
         }
     }
@@ -80,7 +85,8 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! PlaylistCell
         
-        cell.nameLabel.text = tableData![indexPath.row].name
+        cell.nameLabel.text = tableData![indexPath.row].title
+        cell.artistLabel.text = tableData![indexPath.row].artist
         cell.voteLabel.text = "\(tableData![indexPath.row].votes.count)"
         cell.track = tableData![indexPath.row]
         if tableData![indexPath.row].didVote {

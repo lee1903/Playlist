@@ -41,7 +41,7 @@ class PlayerViewController: UIViewController {
             PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
             let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[0]
             self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
-     
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
         }
     }
     
@@ -51,6 +51,7 @@ class PlayerViewController: UIViewController {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
             }
         }
     }
@@ -61,6 +62,7 @@ class PlayerViewController: UIViewController {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex - 1
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex - 1]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
             }
         }
     }

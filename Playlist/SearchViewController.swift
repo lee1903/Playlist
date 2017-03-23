@@ -132,6 +132,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     print(error)
                 } else {
                     print(response)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
                 }
             })
         }

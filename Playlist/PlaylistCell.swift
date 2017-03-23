@@ -12,6 +12,7 @@ class PlaylistCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var voteLabel: UILabel!
+    @IBOutlet weak var artistLabel: UILabel!
     
     @IBOutlet weak var voteButton: UIButton!
     
