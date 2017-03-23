@@ -35,6 +35,7 @@ router.route('/sessions')
 	    // Set text and user values from the request
 		session.name = req.body.name;
 	    session.date = req.body.date;
+	    session.currentTrackIndex = req.body.currentTrackIndex;
 	    session.playlist = []
  
         // Save session and check for errors
@@ -60,7 +61,7 @@ router.route('/sessions/name=:name')
                 res.send(err);
 
             if(req.body.updateVote != null) {
-            	for(var i = 0; i < session.tracklist.length; i++) {
+            	for(var i = (session.currentTrackIndex + 1); i < session.tracklist.length; i++) {
             		if(session.tracklist[i].name == req.body.trackName) {
             			if(i != 0) {
             				//track to add user to
@@ -108,6 +109,7 @@ router.route('/sessions/name=:name')
 	            track.artist = req.body.artist
 	            track.title = req.body.title
 	            track.playableURI = req.body.playableURI
+	            track.imageURL = req.body.imageURL
 
 	            // var user = new User()
 	            // user.name = req.body.userName

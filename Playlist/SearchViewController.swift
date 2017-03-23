@@ -56,12 +56,12 @@ class SearchViewController: UIViewController {
         SPTSearch.perform(withQuery: query, queryType: type!, accessToken: session.accessToken) { (error, response) in
             if error != nil {
                 print(error)
+            } else {
+                let listpage = response as! SPTListPage
+                self.updateTableData(response: listpage, type: type!)
             }
-            let listpage = response as! SPTListPage
-            self.updateTableData(response: listpage, type: type!)
         }
     }
-    
 
     /*
     // MARK: - Navigation

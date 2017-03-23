@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Circled Play Filled-100.png",
+      "filename" : "Play.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Circled Play Filled-101.png",
+      "filename" : "Play-1.png",
       "scale" : "2x"
     },
     {

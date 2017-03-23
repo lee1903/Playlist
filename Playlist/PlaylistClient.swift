@@ -33,7 +33,7 @@ class PlaylistClient {
     
     class func createPlaylistSession(session: PlaylistSession, completion:@escaping (String?, Error?) -> ()) {
         let url = PlaylistClient.apiURL + "sessions/"
-        let params = ["name" : "\(session.name)", "date": "\(getDateString(currentDate: session.date))"]
+        let params = ["name" : "\(session.name)", "date": "\(getDateString(currentDate: session.date))", "currentTrackIndex": "\(session.currentTrackIndex!)"]
         print(params)
         
         http.post(url, parameters: params, progress: { (progress: Progress) -> Void in
@@ -70,7 +70,7 @@ class PlaylistClient {
     class func addTrackToPlaylist(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
         let url = apiURL + "sessions/name=\(session.name)"
         
-        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)"]
+        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)", "imageURL" : "\(track.imageURL)"]
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             

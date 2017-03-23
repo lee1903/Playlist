@@ -20,7 +20,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.date = Date()
         self.tracklist = []
         self.admin = true
-        self.currentTrackIndex = nil
+        self.currentTrackIndex = 0
     }
     
     init(dictionary: NSDictionary) {
@@ -36,13 +36,14 @@ class PlaylistSession: NSObject, NSCoding {
         //create track objects from tracklistArray
         self.tracklist = []
         self.admin = false
-        self.currentTrackIndex = nil
+        self.currentTrackIndex = dictionary["currentTrackIndex"] as! Int
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.date, forKey: "date")
         aCoder.encode(self.admin, forKey: "admin")
+        aCoder.encode(self.currentTrackIndex, forKey: "currentTrackIndex")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,6 +51,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.date = aDecoder.decodeObject(forKey: "date") as? Date ?? Date()
         self.admin = aDecoder.decodeBool(forKey: "admin")
         self.tracklist = []
+        self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? 0
     }
 }
 

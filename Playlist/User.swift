@@ -15,7 +15,7 @@ class User: NSObject {
     init(name: String, id: String) {
         self.name = name
         //self.id = id
-        self.id = "alifj298abc3yr98h23h"
+        self.id = "alifjbb8abc3yr98h23h"
     }
     
     init(dictionary: NSDictionary) {

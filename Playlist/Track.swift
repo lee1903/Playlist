@@ -16,6 +16,7 @@ class Track: NSObject {
     //var votes: [User]
     var votes: [String]
     let didVote: Bool
+    let imageURL: String
     
     init(track: SPTPartialTrack) {
         self.playableURI = track.playableUri
@@ -27,6 +28,7 @@ class Track: NSObject {
         
         self.name = self.title + " - " + self.artist
         self.didVote = true
+        self.imageURL = track.album.smallestCover.imageURL.absoluteString
     }
     
     init(dictionary: NSDictionary) {
@@ -44,6 +46,8 @@ class Track: NSObject {
         
         print(SpotifyClient.sharedInstance.currentUser.id)
         self.didVote = self.votes.contains(SpotifyClient.sharedInstance.currentUser.id)
+        
+        self.imageURL = dictionary["imageURL"] as! String
         
     }
 }

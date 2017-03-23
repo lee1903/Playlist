@@ -17,6 +17,7 @@ class PlaylistCell: UITableViewCell {
     @IBOutlet weak var voteButton: UIButton!
     
     @IBOutlet weak var nowPlayingImage: UIImageView!
+    @IBOutlet weak var albumCover: UIImageView!
     
     var track: Track?
     
