@@ -84,7 +84,7 @@ router.route('/sessions/name=:name')
 
 	            			//adds track back into tracklist in correct position based on new vote count
             				var didInsert = 0
-	            			for(var k = 1; k < i; k++) {
+	            			for(var k = (session.currentTrackIndex + 1); k < i; k++) {
 	            				if(session.tracklist[k].votes.length < track.votes.length){
 	            					session.tracklist.splice(k, 0, track)
 	            					didInsert = 1
@@ -103,7 +103,15 @@ router.route('/sessions/name=:name')
 	                    res.send(err);
 	                res.json({ message: 'Success'})
 	            });
-            } else {
+            } else if(req.body.updateCurrentTrackIndex != null) {
+            	console.log(req.body.currentTrackIndex)
+            	session.currentTrackIndex = req.body.currentTrackIndex
+            	session.save(function(err) {
+	                if (err)
+	                    res.send(err);
+	                res.json({ message: 'currentTrackIndex successfully updated!' });
+	            });
+        	} else {
             	var track = new Track()
 	            track.name = req.body.name
 	            track.artist = req.body.artist

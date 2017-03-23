@@ -102,9 +102,35 @@ class PlaylistClient {
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
+        
+        updateCurrentTrackIndex(session: session) { (res, error) in
+            if error != nil {
+                print(error)
+            } else {
+                print(res)
+            }
+        }
+        
         let url = apiURL + "sessions/name=\(session.name)"
         
         let params = ["trackName" : track.name, "updateVote" : "1", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)"]
+        
+        http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
+            
+            let resDictionary = response! as! NSDictionary
+            let res = resDictionary["message"] as! String
+            
+            completion(res, nil)
+            
+        }) { (dataTask: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        }
+    }
+    
+    class func updateCurrentTrackIndex(session: PlaylistSession, completion:@escaping (String?, Error?) -> ()) {
+        let url = apiURL + "sessions/name=\(session.name)"
+        
+        let params = ["updateCurrentTrackIndex" : "1", "currentTrackIndex" : "\(session.currentTrackIndex!)"]
         
         http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
             
