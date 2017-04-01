@@ -15,13 +15,13 @@ class Track: NSObject {
     let title: String
     let playableURI: URL
     //var votes: [User]
-    var votes: [String]
-    let didVote: Bool
+    var votes: [User]
+    var didVote: Bool
     let imageURL: String
     
     init(track: SPTPartialTrack) {
         self.playableURI = track.playableUri
-        self.votes = [SpotifyClient.sharedInstance.currentUser.id]
+        self.votes = [SpotifyClient.sharedInstance.currentUser]
         self.title = track.name
         
         let artistObj = track.artists[0] as! SPTPartialArtist
@@ -39,21 +39,34 @@ class Track: NSObject {
         self.votes = []
         self.playableURI = URL(string: dictionary["playableURI"] as! String)!
         
-        let votesDictionary = dictionary["votes"] as! [String]
+        let votesDictionary = dictionary["votes"] as! [String : String]
         for obj in votesDictionary {
-            //let user = User(dictionary: obj as! NSDictionary)
-            self.votes.append(obj)
+            let user = User(name: obj.value, id: obj.key)
+            self.votes.append(user)
         }
         
         print(SpotifyClient.sharedInstance.currentUser.id)
-        self.didVote = self.votes.contains(SpotifyClient.sharedInstance.currentUser.id)
+        
+        self.didVote = false
+        for user in self.votes {
+            if user.id == SpotifyClient.sharedInstance.currentUser.id {
+                self.didVote = true
+                break
+            }
+        }
         
         self.imageURL = dictionary["imageURL"] as! String
         
     }
     
     func toDictionary() -> [String : Any] {
-        let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : self.votes, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)"] as [String : Any]
+        var voteDictionary: [String : String] = [:]
+        for user in self.votes {
+            voteDictionary[user.id] = user.name
+        }
+        let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : voteDictionary, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)"] as [String : Any]
+        
+        print(dic)
         
         return dic
     }

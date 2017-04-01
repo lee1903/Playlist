@@ -92,7 +92,6 @@ class PlaylistViewController: UIViewController {
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
                 self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
                 self.notPlaying = false
-                updateTracklist()
             }
         } else {
             self.currentTrackOffset = player?.playbackState.position
@@ -115,7 +114,6 @@ class PlaylistViewController: UIViewController {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
-                updateTracklist()
             }
         }
     }

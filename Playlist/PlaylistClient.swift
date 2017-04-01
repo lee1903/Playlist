@@ -56,12 +56,12 @@ class PlaylistClient {
     
     class func addTrackToPlaylist(session: PlaylistSession, track: Track) {
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/tracklist/\(track.name)").setValue(track.toDictionary())
+        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)").setValue(track.toDictionary())
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track) {
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/tracklist/\(track.name)/votes")
+        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/votes")
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
