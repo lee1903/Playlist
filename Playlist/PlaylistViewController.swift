@@ -44,6 +44,7 @@ class PlaylistViewController: UIViewController {
         
         if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
             mediaControlsView.isHidden = true
+            setCurrentTrackIndexListener()
         }
 
         // Do any additional setup after loading the view.
@@ -80,6 +81,28 @@ class PlaylistViewController: UIViewController {
             }
             
         })
+    }
+    
+    func setCurrentTrackIndexListener() {
+        let currentTrackIndexRef = FIRDatabase.database().reference(withPath: "sessions/\(PlaylistSessionManager.sharedInstance.session!.name)/currentTrackIndex")
+        
+        currentTrackIndexRef.observe(.value, with: { snapshot in
+            
+            PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = snapshot.value as! Int
+            
+            self.tableView.reloadData()
+            
+            if self.tableData != nil {
+                if (self.tableData?.count)! > 0 {
+                    if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex{
+                        let indexPath = IndexPath(row: currentIndex, section: 0)
+                        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+                    }
+                }
+            }
+            
+        })
+
     }
 
     @IBAction func onEndSession(_ sender: Any) {
