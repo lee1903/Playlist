@@ -39,7 +39,9 @@ class PlaylistViewController: UIViewController {
         
         self.setUpAudioStreamer(sessionObj: SpotifyClient.sharedInstance.session)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.setTracklistListener), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
+        setTracklistListener()
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.setTracklistListener), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -61,6 +63,8 @@ class PlaylistViewController: UIViewController {
                 let track = Track(dictionary: trackDict)
                 newItems.append(track)
             }
+            
+            PlaylistSessionManager.sharedInstance.session?.tracklist = newItems
             
             self.tableData = newItems
             self.tableView.reloadData()
@@ -92,6 +96,7 @@ class PlaylistViewController: UIViewController {
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
                 self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
                 self.notPlaying = false
+                self.tableView.reloadData()
             }
         } else {
             self.currentTrackOffset = player?.playbackState.position
@@ -114,6 +119,9 @@ class PlaylistViewController: UIViewController {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+                self.tableView.reloadData()
+                
+                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
             }
         }
     }

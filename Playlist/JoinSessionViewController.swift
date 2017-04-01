@@ -27,11 +27,22 @@ class JoinSessionViewController: UIViewController {
         PlaylistClient.getPlaylist(name: nameTextField.text!) { (session, error) in
             if error != nil {
                 print(error!)
-            } else {
+            } else if session != nil {
                 PlaylistSessionManager.sharedInstance.saveSession(session: session!, completion: { 
                     print("session successfully saved")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
                 })
+            } else {
+                print("no session found with that name")
+                
+                let alertController = UIAlertController(title: "Error", message: "No sessions found with that name", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                    (result : UIAlertAction) -> Void in
+                    print("OK")
+                }
+                
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
             }
         }
     }
