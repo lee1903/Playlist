@@ -12,14 +12,14 @@ class PlaylistSession: NSObject, NSCoding {
     let name: String
     let date: Date
     var tracklist: [Track]
-    let admin: Bool
-    var currentTrackIndex: Int?
+    let admin: String
+    var currentTrackIndex: Int
     
     init(name: String) {
         self.name = name
         self.date = Date()
         self.tracklist = []
-        self.admin = true
+        self.admin = SpotifyClient.sharedInstance.currentUser.id
         self.currentTrackIndex = 0
     }
     
@@ -35,12 +35,12 @@ class PlaylistSession: NSObject, NSCoding {
         
         //create track objects from tracklistArray
         self.tracklist = []
-        self.admin = false
+        self.admin = dictionary["admin"] as! String
         self.currentTrackIndex = dictionary["currentTrackIndex"] as! Int
     }
     
     func toDictionary() -> [String : Any] {
-        let dic = ["name" : "\(self.name)", "date" : "\(getDateString(currentDate: self.date))", "currentTrackIndex" : self.currentTrackIndex] as [String : Any]
+        let dic = ["name" : "\(self.name)", "admin" : "\(self.admin)", "date" : "\(getDateString(currentDate: self.date))", "currentTrackIndex" : self.currentTrackIndex] as [String : Any]
         
         return dic
     }
@@ -55,7 +55,7 @@ class PlaylistSession: NSObject, NSCoding {
     required init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
         self.date = aDecoder.decodeObject(forKey: "date") as? Date ?? Date()
-        self.admin = aDecoder.decodeBool(forKey: "admin")
+        self.admin = aDecoder.decodeObject(forKey: "admin") as? String ?? ""
         self.tracklist = []
         self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? 0
     }

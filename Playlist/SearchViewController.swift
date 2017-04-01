@@ -129,7 +129,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             let track = Track(track: trackObj)
             
             PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
         }
     }
     

@@ -12,8 +12,10 @@ import AFNetworking
 class SpotifyClient {
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"
-    let tokenSwapURL = "http://localhost:1235/swap"
-    let tokenRefreshServiceURL = "http://localhost:1235/refresh"
+//    let tokenSwapURL = "http://localhost:1235/swap"
+//    let tokenRefreshServiceURL = "http://localhost:1235/refresh"
+    let tokenSwapURL = "https://strawberry-pudding-60129.herokuapp.com/swap"
+    let tokenRefreshServiceURL = "https://strawberry-pudding-60129.herokuapp.com/refresh"
     
     var session: SPTSession!
     var currentUser: User!
@@ -71,19 +73,38 @@ class SpotifyClient {
     }
     
     @objc private func setSpotifyUser() {
-        self.getSpotifyUser(completion: { (user, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                if user != nil{
-                    self.currentUser = user
-                    print("successfully set user")
+        if let userObj:Any = userDefaults.object(forKey: "user") {
+            print("user data available")
+            
+            let userDataObj = userObj as! Data
+            self.currentUser = NSKeyedUnarchiver.unarchiveObject(with: userDataObj) as! User
+            
+            print(self.currentUser.name)
+            print(self.currentUser.id)
+            
+        } else {
+            self.getSpotifyUser(completion: { (user, error) in
+                if error != nil {
+                    print(error!)
                 } else {
-                    print("recursively calling self to get user display name")
-                    self.setSpotifyUser()
+                    if user != nil{
+                        self.currentUser = user
+                        
+                        print(self.currentUser.name)
+                        print(self.currentUser.id)
+                        
+                        let userData = NSKeyedArchiver.archivedData(withRootObject: user as Any)
+                        self.userDefaults.set(userData, forKey: "user")
+                        self.userDefaults.synchronize()
+                        
+                        print("successfully set user")
+                    } else {
+                        print("recursively calling self to get user display name")
+                        self.setSpotifyUser()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     
     private func getSpotifyUser(completion:@escaping (User?, Error?) -> ()) {

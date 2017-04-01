@@ -47,8 +47,8 @@ ENCRYPTION_SECRET = "cFJLyifeUJUBFWdHzVbykfDmPHtLKLGzViHW9aHGmyTLD8hGXC"
 AUTH_HEADER = "Basic " + Base64.strict_encode64(CLIENT_ID + ":" + CLIENT_SECRET)
 SPOTIFY_ACCOUNTS_ENDPOINT = URI.parse("https://accounts.spotify.com")
 
-set :port, 1235 # Don't need on Heroku
-set :bind, '0.0.0.0' # IP address of the interface to listen on (all)
+#set :port, 1235 # Don't need on Heroku
+#set :bind, 'https://strawberry-pudding-60129.herokuapp.com' # IP address of the interface to listen on (all)
 
 
 post '/swap' do

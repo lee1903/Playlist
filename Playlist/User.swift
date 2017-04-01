@@ -8,7 +8,7 @@
 
 import Foundation
 
-class User: NSObject {
+class User: NSObject, NSCoding {
     let name: String
     let id: String
     
@@ -22,5 +22,15 @@ class User: NSObject {
     init(key: String, value: String) {
         self.name = value
         self.id = key
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.name, forKey: "name")
+        aCoder.encode(self.id, forKey: "id")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
+        self.id = aDecoder.decodeObject(forKey: "id") as? String ?? ""
     }
 }

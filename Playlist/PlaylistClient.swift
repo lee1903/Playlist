@@ -13,7 +13,6 @@ import Firebase
 class PlaylistClient {
     
     static let http = AFHTTPSessionManager()
-    static let apiURL = "http://localhost:8080/"
 
     
     private class func getTracklistFromJSON(jsonArray: NSArray) -> [Track] {
@@ -62,6 +61,6 @@ class PlaylistClient {
     
     class func updateCurrentTrackIndex(session: PlaylistSession) {
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/currentTrackIndex").setValue(session.currentTrackIndex!)
+        ref.child("sessions/\(session.name)/currentTrackIndex").setValue(session.currentTrackIndex)
     }
 }

@@ -14,6 +14,7 @@ class PlaylistViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var mediaControlsView: UIView!
     
     var tableData: [Track]?
     
@@ -41,7 +42,9 @@ class PlaylistViewController: UIViewController {
         
         setTracklistListener()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.setTracklistListener), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
+        if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
+            mediaControlsView.isHidden = true
+        }
 
         // Do any additional setup after loading the view.
     }
@@ -69,10 +72,13 @@ class PlaylistViewController: UIViewController {
             self.tableData = newItems
             self.tableView.reloadData()
             
-            if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
-                let indexPath = IndexPath(row: currentIndex, section: 0)
-                self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+            if (self.tableData?.count)! > 0 {
+                if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex{
+                    let indexPath = IndexPath(row: currentIndex, section: 0)
+                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+                }
             }
+            
         })
     }
 
@@ -82,10 +88,6 @@ class PlaylistViewController: UIViewController {
         userDefaults.synchronize()
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
-    }
-    
-    @IBAction func onRefresh(_ sender: Any) {
-        setTracklistListener()
     }
     
     

@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RU0-SA-MqW" id="h1Z-kM-WWc">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="47.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drake" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzq-v4-piP">
@@ -299,7 +299,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ud-IS-QGr" id="dGS-46-aYo">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Motto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rds-cH-Vcz">
@@ -394,11 +394,6 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Playlist" id="W2t-fh-23I">
-                                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="T0b-E7-1Uk">
-                                            <connections>
-                                                <action selector="onRefresh:" destination="b8i-cP-Qel" id="Wfe-Ei-gqb"/>
-                                            </connections>
-                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="End" id="ywy-kG-3Cb">
                                             <connections>
                                                 <action selector="onEndSession:" destination="b8i-cP-Qel" id="dZK-ld-rFT"/>
@@ -459,6 +454,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Playlist" id="KBS-rV-6hC"/>
                     <connections>
+                        <outlet property="mediaControlsView" destination="1cE-ek-AZZ" id="vzX-mK-E2r"/>
                         <outlet property="navBar" destination="lzX-q3-Nbn" id="rkq-Ag-2jw"/>
                         <outlet property="playButton" destination="cen-vv-9sn" id="csp-Uq-amT"/>
                         <outlet property="tableView" destination="Vfk-0L-py1" id="sW2-hO-Avn"/>
