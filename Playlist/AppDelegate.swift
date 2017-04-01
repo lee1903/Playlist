@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PYSearch
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        FIRApp.configure()
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayPlayerView), name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
         

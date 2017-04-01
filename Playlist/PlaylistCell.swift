@@ -36,7 +36,7 @@ class PlaylistCell: UITableViewCell {
         if !(track?.didVote)! {
             PlaylistClient.upvoteTrack(session: PlaylistSessionManager.sharedInstance.session!, track: track!) { (response, error) in
                 if error != nil{
-                    print(error)
+                    print(error!)
                 } else{
                     print(response)
                     //self.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)

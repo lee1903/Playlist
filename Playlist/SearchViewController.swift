@@ -55,7 +55,7 @@ class SearchViewController: UIViewController {
         
         SPTSearch.perform(withQuery: query, queryType: type!, accessToken: session.accessToken) { (error, response) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 let listpage = response as! SPTListPage
                 self.updateTableData(response: listpage, type: type!)
@@ -127,14 +127,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         if queryTypeSegmentedControl.selectedSegmentIndex == 0 {
             let trackObj = tableData?[indexPath.row].object as! SPTPartialTrack
             let track = Track(track: trackObj)
-            PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track, completion: { (response, error) in
-                if error != nil {
-                    print(error)
-                } else {
-                    print(response)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
-                }
-            })
+            
+            PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
         }
     }
     

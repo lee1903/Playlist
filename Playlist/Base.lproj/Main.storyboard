@@ -10,68 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Player-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController storyboardIdentifier="PlayerViewController" id="BYZ-38-t0r" customClass="PlayerViewController" customModule="Playlist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6Q-uc-UP7">
-                                <rect key="frame" x="143" y="443" width="88" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="88" id="CKn-GR-aWl"/>
-                                    <constraint firstAttribute="height" constant="30" id="Ug1-m9-3Yy"/>
-                                </constraints>
-                                <state key="normal" title="Start Playing"/>
-                                <connections>
-                                    <action selector="onStartPlaying:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hxd-U6-Wom"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rOb-EL-vD5">
-                                <rect key="frame" x="274" y="443" width="32" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="Dob-A5-o6v"/>
-                                    <constraint firstAttribute="height" constant="30" id="GYh-PM-Tm1"/>
-                                </constraints>
-                                <state key="normal" title="Next"/>
-                                <connections>
-                                    <action selector="onNextSong:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pkF-bM-gfa"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgH-fk-pPd">
-                                <rect key="frame" x="69" y="443" width="31" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="31" id="dO0-xP-c3b"/>
-                                    <constraint firstAttribute="height" constant="30" id="rAq-1e-hnx"/>
-                                </constraints>
-                                <state key="normal" title="Prev"/>
-                                <connections>
-                                    <action selector="onPreviousSong:" destination="BYZ-38-t0r" eventType="touchUpInside" id="p0O-Ug-K9b"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Z6Q-uc-UP7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0cq-ap-A0d"/>
-                            <constraint firstItem="Z6Q-uc-UP7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="423" id="XDV-O8-uh5"/>
-                            <constraint firstItem="rOb-EL-vD5" firstAttribute="leading" secondItem="Z6Q-uc-UP7" secondAttribute="trailing" constant="43" id="j0F-Tf-dok"/>
-                            <constraint firstItem="tgH-fk-pPd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="423" id="pWR-fR-W1D"/>
-                            <constraint firstItem="rOb-EL-vD5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="423" id="qZh-tK-Lbc"/>
-                            <constraint firstItem="Z6Q-uc-UP7" firstAttribute="leading" secondItem="tgH-fk-pPd" secondAttribute="trailing" constant="43" id="xGs-P4-wXd"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Player" id="RDB-y1-DJQ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1530.4000000000001" y="122.78860569715144"/>
-        </scene>
         <!--Search-->
         <scene sceneID="Yho-Bo-Gr5">
             <objects>
@@ -161,7 +99,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Awc-qj-loO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1056.8" y="900.89955022488766"/>
+            <point key="canvasLocation" x="673" y="898"/>
         </scene>
         <!--Spotify Login View Controller-->
         <scene sceneID="9MK-S2-LC1">
@@ -196,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TV5-bt-vkn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2348" y="122.78860569715144"/>
+            <point key="canvasLocation" x="2121" y="123"/>
         </scene>
         <!--Create Join Session View Controller-->
         <scene sceneID="Jyp-NJ-Q6j">
@@ -528,7 +466,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ppt-x1-b1q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2016.8" y="875.71214392803608"/>
+            <point key="canvasLocation" x="1770" y="897"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZEO-3l-wNQ">
@@ -547,7 +485,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4S-qc-lWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="591.20000000000005" y="122.78860569715144"/>
+            <point key="canvasLocation" x="1226" y="123"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="skq-XD-jFc">

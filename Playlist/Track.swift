@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class Track: NSObject {
     let name: String
@@ -20,7 +21,7 @@ class Track: NSObject {
     
     init(track: SPTPartialTrack) {
         self.playableURI = track.playableUri
-        self.votes = []
+        self.votes = [SpotifyClient.sharedInstance.currentUser.id]
         self.title = track.name
         
         let artistObj = track.artists[0] as! SPTPartialArtist
@@ -38,10 +39,10 @@ class Track: NSObject {
         self.votes = []
         self.playableURI = URL(string: dictionary["playableURI"] as! String)!
         
-        let votesDictionary = dictionary["votes"] as! NSArray
+        let votesDictionary = dictionary["votes"] as! [String]
         for obj in votesDictionary {
             //let user = User(dictionary: obj as! NSDictionary)
-            self.votes.append(obj as! String)
+            self.votes.append(obj)
         }
         
         print(SpotifyClient.sharedInstance.currentUser.id)
@@ -49,5 +50,11 @@ class Track: NSObject {
         
         self.imageURL = dictionary["imageURL"] as! String
         
+    }
+    
+    func toDictionary() -> [String : Any] {
+        let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : self.votes, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)"] as [String : Any]
+        
+        return dic
     }
 }

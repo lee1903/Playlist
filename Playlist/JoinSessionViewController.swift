@@ -26,7 +26,7 @@ class JoinSessionViewController: UIViewController {
     @IBAction func onJoinSession(_ sender: Any) {
         PlaylistClient.getPlaylist(name: nameTextField.text!) { (session, error) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 PlaylistSessionManager.sharedInstance.saveSession(session: session!, completion: { 
                     print("session successfully saved")

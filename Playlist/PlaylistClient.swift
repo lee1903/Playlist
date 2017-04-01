@@ -8,6 +8,7 @@
 
 import Foundation
 import AFNetworking
+import Firebase
 
 class PlaylistClient {
     
@@ -31,24 +32,10 @@ class PlaylistClient {
         return tracklist
     }
     
-    class func createPlaylistSession(session: PlaylistSession, completion:@escaping (String?, Error?) -> ()) {
-        let url = PlaylistClient.apiURL + "sessions/"
-        let params = ["name" : "\(session.name)", "date": "\(getDateString(currentDate: session.date))", "currentTrackIndex": "\(session.currentTrackIndex!)"]
-        print(params)
-        
-        http.post(url, parameters: params, progress: { (progress: Progress) -> Void in
-        }, success: { (dataTask: URLSessionDataTask, response: Any?) -> Void in
-            
-            let resDictionary = response! as! NSDictionary
-            let res = resDictionary["message"] as! String
-            
-            completion(res, nil)
-            
-            
-        }) { (dataTask: URLSessionDataTask?, error: Error) -> Void in
-            
-            completion(nil, error)
-        }
+    class func createPlaylistSession(session: PlaylistSession) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(session.name)/date").setValue(getDateString(currentDate: session.date))
+        ref.child("sessions/\(session.name)/currentTrackIndex").setValue(session.currentTrackIndex)
     }
     
     //needs testing
@@ -67,47 +54,23 @@ class PlaylistClient {
         }
     }
     
-    class func addTrackToPlaylist(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
-        let url = apiURL + "sessions/name=\(session.name)"
-        
-        let params = ["name" : "\(track.name)", "playableURI" : "\(track.playableURI)", "votes" : "\(track.votes)", "artist" : "\(track.artist)", "title" : "\(track.title)", "userName" : "\(SpotifyClient.sharedInstance.currentUser.name)", "userId" : "\(SpotifyClient.sharedInstance.currentUser.id)", "imageURL" : "\(track.imageURL)"]
-        
-        http.put(url, parameters: params, success: { (dataTask: URLSessionDataTask, response: Any?) in
-            
-            let resDictionary = response! as! NSDictionary
-            let res = resDictionary["message"] as! String
-            
-            completion(res, nil)
-            
-        }) { (dataTask: URLSessionDataTask?, error: Error) in
-            completion(nil, error)
-        }
-        
+    class func addTrackToPlaylist(session: PlaylistSession, track: Track) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(session.name)/tracklist/\(track.name)").setValue(track.toDictionary())
     }
     
-    class func getTracklist(session: PlaylistSession, completion:@escaping ([Track]?, Error?) -> ()) {
-        let url = apiURL + "sessions/tracklist/name=\(session.name)"
-        
-        http.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
-            
-            let resArray = response! as! NSArray
-            let tracklist = getTracklistFromJSON(jsonArray: resArray)
-            
-            completion(tracklist, nil)
-            
-        }) { (dataTask: URLSessionDataTask?, error: Error) in
-            completion(nil, error)
-        }
-        
+    class func upvoteTrack(session: PlaylistSession, track: Track) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(session.name)/tracklist/\(track.name)/votes")
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {
         
         updateCurrentTrackIndex(session: session) { (res, error) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
-                print(res)
+                print(res!)
             }
         }
         

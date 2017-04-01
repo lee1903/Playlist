@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PlaylistViewController: UIViewController {
     
@@ -21,8 +22,10 @@ class PlaylistViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
-    var isPlayButton: Bool!
+    var notPlaying: Bool!
     var currentTrackOffset: TimeInterval?
+    
+    var ref: FIRDatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,13 +33,13 @@ class PlaylistViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        isPlayButton = true
+        notPlaying = true
         
         navBar.topItem?.title = PlaylistSessionManager.sharedInstance.session?.name
         
         self.setUpAudioStreamer(sessionObj: SpotifyClient.sharedInstance.session)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.updateTracklist), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PlaylistViewController.setTracklistListener), name: NSNotification.Name(rawValue: "updateTracklist"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -46,21 +49,27 @@ class PlaylistViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func updateTracklist() {
-        PlaylistClient.getTracklist(session: PlaylistSessionManager.sharedInstance.session!) { (tracklist, error) in
-            if error != nil {
-                print(error)
-            } else {
-                PlaylistSessionManager.sharedInstance.session?.tracklist = tracklist!
-                self.tableData = tracklist
-                self.tableView.reloadData()
-                
-                if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
-                    let indexPath = IndexPath(row: currentIndex, section: 0)
-                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
-                }
+    func setTracklistListener() {
+        let tracklistRef = FIRDatabase.database().reference(withPath: "sessions/\(PlaylistSessionManager.sharedInstance.session!.name)/tracklist")
+        
+        tracklistRef.observe(.value, with: { snapshot in
+            var newItems: [Track] = []
+            
+            let trackArray = snapshot.value as? [String : AnyObject] ?? [:]
+            for item in trackArray {
+                let trackDict = item.value as! NSDictionary
+                let track = Track(dictionary: trackDict)
+                newItems.append(track)
             }
-        }
+            
+            self.tableData = newItems
+            self.tableView.reloadData()
+            
+            if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+                let indexPath = IndexPath(row: currentIndex, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+            }
+        })
     }
 
     @IBAction func onEndSession(_ sender: Any) {
@@ -72,17 +81,17 @@ class PlaylistViewController: UIViewController {
     }
     
     @IBAction func onRefresh(_ sender: Any) {
-        updateTracklist()
+        setTracklistListener()
     }
     
     
     @IBAction func onPlay(_ sender: Any) {
-        if isPlayButton == true {
+        if notPlaying == true {
             if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
                 self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
-                self.isPlayButton = false
+                self.notPlaying = false
                 updateTracklist()
             }
         } else {
@@ -92,7 +101,7 @@ class PlaylistViewController: UIViewController {
                     print("error pausing")
                 } else {
                     self.playButton.setImage(UIImage(named: "Play"), for: UIControlState.normal)
-                    self.isPlayButton = true
+                    self.notPlaying = true
                 }
             })
         }
@@ -150,7 +159,7 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
-            if indexPath.row == currentIndex {
+            if indexPath.row == currentIndex && !notPlaying {
                 cell.voteButton.isHidden = true
                 cell.voteLabel.isHidden = true
                 cell.nowPlayingImage.isHidden = false
@@ -229,14 +238,14 @@ extension PlaylistViewController: SPTAudioStreamingDelegate {
             player?.playSpotifyURI(spotifyURI, startingWith: 0, startingWithPosition: currentTrackOffset!, callback: { (error) in
                 if error != nil {
                     print("error playing uri")
-                    print(error)
+                    print(error!)
                 }
             })
         } else {
             player?.playSpotifyURI(spotifyURI, startingWith: 0, startingWithPosition: 0, callback: { (error) in
                 if error != nil {
                     print("error playing uri")
-                    print(error)
+                    print(error!)
                 }
             })
         }

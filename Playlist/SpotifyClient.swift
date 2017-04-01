@@ -48,7 +48,7 @@ class SpotifyClient {
             SPTAuth.defaultInstance().renewSession(session, callback: { (error, renewedSession) in
                 if error != nil {
                     print("error refreshing session")
-                    print(error)
+                    print(error!)
                     //self.promptUserLogin()
                     returnValue = false
                 } else {
@@ -73,7 +73,7 @@ class SpotifyClient {
     @objc private func setSpotifyUser() {
         self.getSpotifyUser(completion: { (user, error) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 if user != nil{
                     self.currentUser = user

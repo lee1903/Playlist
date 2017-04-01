@@ -14,7 +14,6 @@
 		E4275DC41E75B7FC001B938D /* SpotifyLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4275DC31E75B7FC001B938D /* SpotifyLoginViewController.swift */; };
 		E42D34A41E7787E200C3A70B /* SearchDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42D34A31E7787E200C3A70B /* SearchDataCell.swift */; };
 		E47351AB1E74CA2900966862 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47351AA1E74CA2900966862 /* AppDelegate.swift */; };
-		E47351AD1E74CA2900966862 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47351AC1E74CA2900966862 /* PlayerViewController.swift */; };
 		E47351B01E74CA2900966862 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E47351AE1E74CA2900966862 /* Main.storyboard */; };
 		E47351B21E74CA2A00966862 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E47351B11E74CA2A00966862 /* Assets.xcassets */; };
 		E47351B51E74CA2A00966862 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E47351B31E74CA2A00966862 /* LaunchScreen.storyboard */; };
@@ -31,6 +30,7 @@
 		E4913C141E818D2F007CBF70 /* JoinSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */; };
 		E494D3121E777569001EB774 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E494D3111E777569001EB774 /* SearchViewController.swift */; };
 		E4CC24741E81DCA200F1A436 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CC24731E81DCA200F1A436 /* User.swift */; };
+		E4CC24761E8EE5F100F1A436 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E4CC24751E8EE5F100F1A436 /* GoogleService-Info.plist */; };
 		ECB4CADFD031A76E7B7E0202 /* Pods_Playlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E2609A37E95B04D6B89DDE /* Pods_Playlist.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +47,6 @@
 		E42D34A31E7787E200C3A70B /* SearchDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataCell.swift; sourceTree = "<group>"; };
 		E47351A71E74CA2900966862 /* Playlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Playlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47351AA1E74CA2900966862 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E47351AC1E74CA2900966862 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		E47351AF1E74CA2900966862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E47351B11E74CA2A00966862 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E47351B41E74CA2A00966862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,6 +64,7 @@
 		E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinSessionViewController.swift; sourceTree = "<group>"; };
 		E494D3111E777569001EB774 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		E4CC24731E81DCA200F1A436 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E4CC24751E8EE5F100F1A436 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +145,7 @@
 				E47351AE1E74CA2900966862 /* Main.storyboard */,
 				E47351B11E74CA2A00966862 /* Assets.xcassets */,
 				E47351B31E74CA2A00966862 /* LaunchScreen.storyboard */,
+				E4CC24751E8EE5F100F1A436 /* GoogleService-Info.plist */,
 				E47351B61E74CA2A00966862 /* Info.plist */,
 				E40D0C961E74D58A0031FB63 /* Playlist-Bridging-Header.h */,
 			);
@@ -169,7 +170,6 @@
 				E4913C0D1E7F1EB0007CBF70 /* CreateSessionViewController.swift */,
 				E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */,
 				E4913BFA1E7F0654007CBF70 /* PlaylistViewController.swift */,
-				E47351AC1E74CA2900966862 /* PlayerViewController.swift */,
 				E494D3111E777569001EB774 /* SearchViewController.swift */,
 			);
 			name = "View Controllers";
@@ -240,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E47351B51E74CA2A00966862 /* LaunchScreen.storyboard in Resources */,
+				E4CC24761E8EE5F100F1A436 /* GoogleService-Info.plist in Resources */,
 				E47351B21E74CA2A00966862 /* Assets.xcassets in Resources */,
 				E47351B01E74CA2900966862 /* Main.storyboard in Resources */,
 			);
@@ -302,7 +303,6 @@
 			files = (
 				E4913C0A1E7F1B7E007CBF70 /* PlaylistClient.swift in Sources */,
 				E4913C101E805E39007CBF70 /* PlaylistSessionManager.swift in Sources */,
-				E47351AD1E74CA2900966862 /* PlayerViewController.swift in Sources */,
 				E4275DC41E75B7FC001B938D /* SpotifyLoginViewController.swift in Sources */,
 				E4913C0C1E7F1BA7007CBF70 /* PlaylistSession.swift in Sources */,
 				E4913BFB1E7F0654007CBF70 /* PlaylistViewController.swift in Sources */,

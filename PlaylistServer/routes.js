@@ -104,7 +104,6 @@ router.route('/sessions/name=:name')
 	                res.json({ message: 'Success'})
 	            });
             } else if(req.body.updateCurrentTrackIndex != null) {
-            	console.log(req.body.currentTrackIndex)
             	session.currentTrackIndex = req.body.currentTrackIndex
             	session.save(function(err) {
 	                if (err)
