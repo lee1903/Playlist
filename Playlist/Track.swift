@@ -41,7 +41,7 @@ class Track: NSObject {
         
         let votesDictionary = dictionary["votes"] as! [String : String]
         for obj in votesDictionary {
-            let user = User(name: obj.value, id: obj.key)
+            let user = User(key: obj.key, value: obj.value)
             self.votes.append(user)
         }
         
@@ -65,8 +65,6 @@ class Track: NSObject {
             voteDictionary[user.id] = user.name
         }
         let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : voteDictionary, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)"] as [String : Any]
-        
-        print(dic)
         
         return dic
     }

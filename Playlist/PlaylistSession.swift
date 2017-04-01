@@ -39,6 +39,12 @@ class PlaylistSession: NSObject, NSCoding {
         self.currentTrackIndex = dictionary["currentTrackIndex"] as! Int
     }
     
+    func toDictionary() -> [String : Any] {
+        let dic = ["name" : "\(self.name)", "date" : "\(getDateString(currentDate: self.date))", "currentTrackIndex" : self.currentTrackIndex] as [String : Any]
+        
+        return dic
+    }
+    
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name, forKey: "name")
         aCoder.encode(self.date, forKey: "date")
@@ -52,6 +58,13 @@ class PlaylistSession: NSObject, NSCoding {
         self.admin = aDecoder.decodeBool(forKey: "admin")
         self.tracklist = []
         self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? 0
+    }
+    
+    private func getDateString(currentDate: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy / HH:mm:ss"
+        let date = dateFormatter.string(from: currentDate)
+        return date
     }
 }
 

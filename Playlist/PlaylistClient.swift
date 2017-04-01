@@ -14,13 +14,7 @@ class PlaylistClient {
     
     static let http = AFHTTPSessionManager()
     static let apiURL = "http://localhost:8080/"
-    
-    private class func getDateString(currentDate: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy / HH:mm:ss"
-        let date = dateFormatter.string(from: currentDate)
-        return date
-    }
+
     
     private class func getTracklistFromJSON(jsonArray: NSArray) -> [Track] {
         var tracklist: [Track] = []
@@ -34,25 +28,26 @@ class PlaylistClient {
     
     class func createPlaylistSession(session: PlaylistSession) {
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/date").setValue(getDateString(currentDate: session.date))
-        ref.child("sessions/\(session.name)/currentTrackIndex").setValue(session.currentTrackIndex)
+        ref.child("sessions/\(session.name)").setValue(session.toDictionary())
     }
     
     //needs testing
     class func getPlaylist(name: String, completion:@escaping (PlaylistSession?, Error?) -> ()) {
-        let url = apiURL + "sessions/name=\(name)"
-        
-        http.get(url, parameters: [], progress: { (progress) in }, success: { (dataTask: URLSessionDataTask, response: Any?) in
-            
-            let res = response! as! NSDictionary
-            let session = PlaylistSession(dictionary: res)
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions").child(name).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as! NSDictionary
+            print(value)
+            let session = PlaylistSession(dictionary: value)
             
             completion(session, nil)
             
-        }) { (dataTask: URLSessionDataTask?, error: Error) in
+        }) { (error) in
+            print(error.localizedDescription)
             completion(nil, error)
         }
     }
+
     
     class func addTrackToPlaylist(session: PlaylistSession, track: Track) {
         let ref = FIRDatabase.database().reference()
@@ -61,7 +56,7 @@ class PlaylistClient {
     
     class func upvoteTrack(session: PlaylistSession, track: Track) {
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/votes")
+        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/votes/\(SpotifyClient.sharedInstance.currentUser.id)").setValue(SpotifyClient.sharedInstance.currentUser.name)
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track, completion:@escaping (String?, Error?) -> ()) {

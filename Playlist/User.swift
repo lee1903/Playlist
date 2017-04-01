@@ -14,12 +14,13 @@ class User: NSObject {
     
     init(name: String, id: String) {
         self.name = name
-        //self.id = id
-        self.id = "alifjbasdf377c3yr98h23h"
+        self.id = id
+//        self.name = "Aidan Lowe"
+//        self.id = "alifjba377c321fv8h23h"
     }
     
-    init(dictionary: NSDictionary) {
-        self.name = dictionary["name"] as! String
-        self.id = dictionary["id"] as! String
+    init(key: String, value: String) {
+        self.name = value
+        self.id = key
     }
 }
