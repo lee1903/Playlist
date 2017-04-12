@@ -39,6 +39,17 @@ class PlaylistSession: NSObject, NSCoding {
         self.currentTrackIndex = dictionary["currentTrackIndex"] as! Int
     }
     
+    func sortTracklist() {
+        if tracklist.count > 0 {
+            var unplayedTracklist = Array(self.tracklist[self.currentTrackIndex+1..<self.tracklist.count])
+            unplayedTracklist.sort(by: { (track1, track2) -> Bool in
+                return track1.votes.count > track2.votes.count
+            })
+            let sortedTracklist = Array(self.tracklist[0..<self.currentTrackIndex+1]) + unplayedTracklist
+            self.tracklist = sortedTracklist
+        }
+    }
+    
     func toDictionary() -> [String : Any] {
         let dic = ["name" : "\(self.name)", "admin" : "\(self.admin)", "date" : "\(getDateString(currentDate: self.date))", "currentTrackIndex" : self.currentTrackIndex] as [String : Any]
         

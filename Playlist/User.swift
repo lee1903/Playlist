@@ -13,10 +13,10 @@ class User: NSObject, NSCoding {
     let id: String
     
     init(name: String, id: String) {
-//        self.name = name
-//        self.id = id
-        self.name = "Aidan Lowe"
-        self.id = "alifjba377c321fv8h23h"
+        self.name = name
+        self.id = id
+//        self.name = "Aidan Lowe"
+//        self.id = "alifjba377c321fv8h23h"
     }
     
     init(key: String, value: String) {

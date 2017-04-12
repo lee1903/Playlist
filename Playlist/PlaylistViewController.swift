@@ -41,21 +41,10 @@ class PlaylistViewController: UIViewController {
         self.setUpAudioStreamer(sessionObj: SpotifyClient.sharedInstance.session)
         
         setTracklistListener()
-        
+        setCurrentTrackIndexListener()
         
         if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
             mediaControlsView.isHidden = true
-            setCurrentTrackIndexListener()
-        } else {
-            //gets current track index once instead of setting up a listener
-            PlaylistClient.getCurrentTrack(session: PlaylistSessionManager.sharedInstance.session!, completion: { (currentTrackIndex, error) in
-                if error == nil {
-                    PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentTrackIndex!
-                    self.tableView.reloadData()
-                } else {
-                    print(error?.localizedDescription)
-                }
-            })
         }
 
         // Do any additional setup after loading the view.
@@ -80,8 +69,9 @@ class PlaylistViewController: UIViewController {
             }
             
             PlaylistSessionManager.sharedInstance.session?.tracklist = newItems
+            //PlaylistSessionManager.sharedInstance.session?.sortTracklist()
             
-            self.tableData = newItems
+            self.tableData = PlaylistSessionManager.sharedInstance.session?.tracklist
             self.tableView.reloadData()
             
             if (self.tableData?.count)! > 0 {
@@ -99,7 +89,10 @@ class PlaylistViewController: UIViewController {
         
         currentTrackIndexRef.observe(.value, with: { snapshot in
             
-            PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = snapshot.value as! Int
+            if let index = snapshot.value as? Int {
+                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = index
+            }
+            
             
             self.tableView.reloadData()
             
