@@ -20,7 +20,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.date = Date()
         self.tracklist = []
         self.admin = SpotifyClient.sharedInstance.currentUser.id
-        self.currentTrackIndex = 0
+        self.currentTrackIndex = -1
     }
     
     init(dictionary: NSDictionary) {
@@ -57,7 +57,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.date = aDecoder.decodeObject(forKey: "date") as? Date ?? Date()
         self.admin = aDecoder.decodeObject(forKey: "admin") as? String ?? ""
         self.tracklist = []
-        self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? 0
+        self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? -1
     }
     
     private func getDateString(currentDate: Date) -> String {

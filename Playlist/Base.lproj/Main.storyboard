@@ -90,7 +90,7 @@
                             <constraint firstItem="EQ0-dQ-Atq" firstAttribute="leading" secondItem="j30-ZD-gUa" secondAttribute="leading" id="zjF-Wr-Jwe"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" id="lKj-Ey-qD5"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="Search" id="lKj-Ey-qD5"/>
                     <connections>
                         <outlet property="queryTypeSegmentedControl" destination="sQn-Pb-C5N" id="Ccm-7v-Z5q"/>
                         <outlet property="searchBar" destination="BLC-xG-5GT" id="8ZA-G6-chb"/>
@@ -452,7 +452,7 @@
                             <constraint firstAttribute="trailing" secondItem="1cE-ek-AZZ" secondAttribute="trailing" id="wlP-fl-LGp"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Playlist" id="KBS-rV-6hC"/>
+                    <tabBarItem key="tabBarItem" title="Playlist" image="Playlist" id="KBS-rV-6hC"/>
                     <connections>
                         <outlet property="mediaControlsView" destination="1cE-ek-AZZ" id="vzX-mK-E2r"/>
                         <outlet property="navBar" destination="lzX-q3-Nbn" id="rkq-Ag-2jw"/>
@@ -507,5 +507,7 @@
         <image name="Next" width="50" height="50"/>
         <image name="Now-Playing" width="50" height="50"/>
         <image name="Play" width="50" height="50"/>
+        <image name="Playlist" width="25" height="25"/>
+        <image name="Search" width="25" height="25"/>
     </resources>
 </document>

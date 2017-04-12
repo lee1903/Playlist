@@ -47,6 +47,21 @@ class PlaylistClient {
             completion(nil, error)
         }
     }
+    
+    class func getCurrentTrack(session: PlaylistSession, completion:@escaping (Int?, Error?) -> ()) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(PlaylistSessionManager.sharedInstance.session!.name)/currentTrackIndex").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get current track value one time
+            if let value = snapshot.value as? Int {                
+                completion(value, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(nil, error)
+        }
+    }
 
     
     class func addTrackToPlaylist(session: PlaylistSession, track: Track) {

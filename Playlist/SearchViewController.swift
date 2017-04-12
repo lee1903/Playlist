@@ -29,6 +29,10 @@ class SearchViewController: UIViewController {
         let sessionObj:Any = userDefaults.object(forKey: "SpotifySession")
         let sessionDataObj = sessionObj as! Data
         self.session = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false 
+        view.addGestureRecognizer(tap)
 
         // Do any additional setup after loading the view.
     }
@@ -36,6 +40,11 @@ class SearchViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     func searchSpotify(query: String) {

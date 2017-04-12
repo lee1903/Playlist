@@ -42,9 +42,20 @@ class PlaylistViewController: UIViewController {
         
         setTracklistListener()
         
+        
         if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
             mediaControlsView.isHidden = true
             setCurrentTrackIndexListener()
+        } else {
+            //gets current track index once instead of setting up a listener
+            PlaylistClient.getCurrentTrack(session: PlaylistSessionManager.sharedInstance.session!, completion: { (currentTrackIndex, error) in
+                if error == nil {
+                    PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentTrackIndex!
+                    self.tableView.reloadData()
+                } else {
+                    print(error?.localizedDescription)
+                }
+            })
         }
 
         // Do any additional setup after loading the view.
@@ -74,8 +85,8 @@ class PlaylistViewController: UIViewController {
             self.tableView.reloadData()
             
             if (self.tableData?.count)! > 0 {
-                if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex{
-                    let indexPath = IndexPath(row: currentIndex, section: 0)
+                if PlaylistSessionManager.sharedInstance.session!.currentTrackIndex >= 0{
+                    let indexPath = IndexPath(row: PlaylistSessionManager.sharedInstance.session!.currentTrackIndex, section: 0)
                     self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
                 }
             }
@@ -94,8 +105,8 @@ class PlaylistViewController: UIViewController {
             
             if self.tableData != nil {
                 if (self.tableData?.count)! > 0 {
-                    if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex{
-                        let indexPath = IndexPath(row: currentIndex, section: 0)
+                    if (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)! >= 0{
+                        let indexPath = IndexPath(row: (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!, section: 0)
                         self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
                     }
                 }
@@ -116,6 +127,10 @@ class PlaylistViewController: UIViewController {
     
     @IBAction func onPlay(_ sender: Any) {
         if notPlaying == true {
+            if PlaylistSessionManager.sharedInstance.session?.currentTrackIndex == -1 {
+                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
+                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
+            }
             if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
@@ -138,7 +153,8 @@ class PlaylistViewController: UIViewController {
     }
     
     @IBAction func onNext(_ sender: Any) {
-        if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
+        let currentIndex = PlaylistSessionManager.sharedInstance.session!.currentTrackIndex
+        if currentIndex >= 0 {
             if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
                 self.currentTrackOffset = nil
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
@@ -190,7 +206,8 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         if let currentIndex = PlaylistSessionManager.sharedInstance.session?.currentTrackIndex {
-            if indexPath.row == currentIndex && !notPlaying {
+            if indexPath.row == currentIndex {
+                //current song playing
                 cell.voteButton.isHidden = true
                 cell.voteLabel.isHidden = true
                 cell.nowPlayingImage.isHidden = false
@@ -198,6 +215,7 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.artistLabel.textColor = UIColor(red:0.41, green:0.41, blue:0.41, alpha:1.0)
                 cell.albumCover.alpha = 1
             } else if indexPath.row < currentIndex {
+                //song has already been played
                 cell.voteButton.isHidden = true
                 cell.voteLabel.isHidden = true
                 cell.nowPlayingImage.isHidden = true
@@ -205,6 +223,7 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.artistLabel.textColor = UIColor(red:0.82, green:0.83, blue:0.83, alpha:1.0)
                 cell.albumCover.alpha = 0.3
             } else {
+                //song has yet to play
                 cell.voteButton.isHidden = false
                 cell.voteLabel.isHidden = false
                 cell.nowPlayingImage.isHidden = true
