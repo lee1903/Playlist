@@ -70,12 +70,31 @@ class PlaylistClient {
     }
     
     class func upvoteTrack(session: PlaylistSession, track: Track) {
+        let date = NSDate()
+        let currentTime = UInt64(date.timeIntervalSince1970 * 1000.0)
+        
         let ref = FIRDatabase.database().reference()
-        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/votes/\(SpotifyClient.sharedInstance.currentUser.id)").setValue(SpotifyClient.sharedInstance.currentUser.name)
+        let trackRef = ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)")
+        
+        let newData: [String : Any] = ["votes/\(SpotifyClient.sharedInstance.currentUser.id)" : SpotifyClient.sharedInstance.currentUser.name, "timeUpvoted" : currentTime]
+        
+        trackRef.updateChildValues(newData)
+        
+        
+//        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/votes/\(SpotifyClient.sharedInstance.currentUser.id)").setValue(SpotifyClient.sharedInstance.currentUser.name)
+//        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/timeUpvoted").setValue(currentTime)
     }
     
     class func updateCurrentTrackIndex(session: PlaylistSession) {
         let ref = FIRDatabase.database().reference()
         ref.child("sessions/\(session.name)/currentTrackIndex").setValue(session.currentTrackIndex)
+    }
+    
+    class func setTrackTimePlayed(session: PlaylistSession, track: Track) {
+        let date = NSDate()
+        let currentTime = UInt64(date.timeIntervalSince1970 * 1000.0)
+        
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/timePlayed").setValue(currentTime)
     }
 }

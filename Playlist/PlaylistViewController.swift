@@ -69,7 +69,7 @@ class PlaylistViewController: UIViewController {
             }
             
             PlaylistSessionManager.sharedInstance.session?.tracklist = newItems
-            //PlaylistSessionManager.sharedInstance.session?.sortTracklist()
+            PlaylistSessionManager.sharedInstance.session?.sortTracklist()
             
             self.tableData = PlaylistSessionManager.sharedInstance.session?.tracklist
             self.tableView.reloadData()
@@ -120,12 +120,18 @@ class PlaylistViewController: UIViewController {
     
     @IBAction func onPlay(_ sender: Any) {
         if notPlaying == true {
-            if PlaylistSessionManager.sharedInstance.session?.currentTrackIndex == -1 {
-                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
-                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
-            }
+            //checks to make sure queue is not empty
             if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
+                //if no song has been played yet, set currentTrackIndex to 0
+                if PlaylistSessionManager.sharedInstance.session?.currentTrackIndex == -1 {
+                    PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
+                    PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
+                }
                 let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
+                
+                //updates timePlayed in Firebase
+                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
+                
                 self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
                 self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
                 self.notPlaying = false
@@ -148,6 +154,7 @@ class PlaylistViewController: UIViewController {
     @IBAction func onNext(_ sender: Any) {
         let currentIndex = PlaylistSessionManager.sharedInstance.session!.currentTrackIndex
         if currentIndex >= 0 {
+            //checks if current song is the last song in queue
             if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
                 self.currentTrackOffset = nil
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
@@ -156,6 +163,7 @@ class PlaylistViewController: UIViewController {
                 self.tableView.reloadData()
                 
                 PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
+                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
             }
         }
     }

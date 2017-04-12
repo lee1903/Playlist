@@ -41,9 +41,30 @@ class PlaylistSession: NSObject, NSCoding {
     
     func sortTracklist() {
         if tracklist.count > 0 {
+            self.tracklist.sort(by: { (trackA, trackB) -> Bool in
+                if trackA.timePlayed == 0 && trackB.timePlayed == 0 {
+                    //neither song has been played yet, sort by time queued in chronological order
+                    return trackA.timeQueued < trackB.timeQueued
+                } else if trackA.timePlayed == 0 && trackB.timePlayed != 0 {
+                    //trackA hasn't been played but trackB has, trackB goes first
+                    return false
+                } else if trackA.timePlayed != 0 && trackB.timePlayed == 0 {
+                    //trackB hasn't been played but trackA has, trackA goes first
+                    return true
+                } else {
+                    //trackA and trackB have both been played, sort by time played in chronological order
+                    return trackA.timePlayed < trackB.timePlayed
+                }
+            })
             var unplayedTracklist = Array(self.tracklist[self.currentTrackIndex+1..<self.tracklist.count])
-            unplayedTracklist.sort(by: { (track1, track2) -> Bool in
-                return track1.votes.count > track2.votes.count
+            unplayedTracklist.sort(by: { (trackA, trackB) -> Bool in
+                //sorts uplayed portion of tracklist by vote count in descending order
+                //if vote count is the same, sort by time upvoted in chronological order
+                if trackA.votes.count == trackB.votes.count {
+                    return trackA.timeUpvoted < trackB.timeUpvoted
+                } else {
+                    return trackA.votes.count > trackB.votes.count
+                }
             })
             let sortedTracklist = Array(self.tracklist[0..<self.currentTrackIndex+1]) + unplayedTracklist
             self.tracklist = sortedTracklist
