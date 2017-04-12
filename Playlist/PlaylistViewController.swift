@@ -46,7 +46,6 @@ class PlaylistViewController: UIViewController {
         if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
             mediaControlsView.isHidden = true
         }
-
         // Do any additional setup after loading the view.
     }
 
@@ -74,12 +73,12 @@ class PlaylistViewController: UIViewController {
             self.tableData = PlaylistSessionManager.sharedInstance.session?.tracklist
             self.tableView.reloadData()
             
-            if (self.tableData?.count)! > 0 {
-                if PlaylistSessionManager.sharedInstance.session!.currentTrackIndex >= 0{
-                    let indexPath = IndexPath(row: PlaylistSessionManager.sharedInstance.session!.currentTrackIndex, section: 0)
-                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
-                }
-            }
+//            if (self.tableData?.count)! > 0 {
+//                if PlaylistSessionManager.sharedInstance.session!.currentTrackIndex >= 0{
+//                    let indexPath = IndexPath(row: PlaylistSessionManager.sharedInstance.session!.currentTrackIndex, section: 0)
+//                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+//                }
+//            }
             
         })
     }
@@ -92,7 +91,6 @@ class PlaylistViewController: UIViewController {
             if let index = snapshot.value as? Int {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = index
             }
-            
             
             self.tableView.reloadData()
             
@@ -107,6 +105,23 @@ class PlaylistViewController: UIViewController {
             
         })
 
+    }
+    
+    func playNextSong() {
+        let currentIndex = PlaylistSessionManager.sharedInstance.session!.currentTrackIndex
+        if currentIndex >= 0 {
+            //checks if current song is the last song in queue
+            if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
+                self.currentTrackOffset = nil
+                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
+                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
+                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+                self.tableView.reloadData()
+                
+                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
+                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
+            }
+        }
     }
 
     @IBAction func onEndSession(_ sender: Any) {
@@ -152,20 +167,7 @@ class PlaylistViewController: UIViewController {
     }
     
     @IBAction func onNext(_ sender: Any) {
-        let currentIndex = PlaylistSessionManager.sharedInstance.session!.currentTrackIndex
-        if currentIndex >= 0 {
-            //checks if current song is the last song in queue
-            if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
-                self.currentTrackOffset = nil
-                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
-                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
-                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
-                self.tableView.reloadData()
-                
-                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
-                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
-            }
-        }
+        playNextSong()
     }
     
     /*
@@ -244,7 +246,7 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension PlaylistViewController: SPTAudioStreamingDelegate {
+extension PlaylistViewController: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
     func setUpAudioStreamer(sessionObj: SPTSession!) {
         if player == nil {
@@ -256,6 +258,7 @@ extension PlaylistViewController: SPTAudioStreamingDelegate {
                 print(error)
             }
             player?.delegate = self
+            player?.playbackDelegate = self
             print("player set successfully")
         } else {
             print("player already set")
@@ -283,6 +286,13 @@ extension PlaylistViewController: SPTAudioStreamingDelegate {
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
         print("audio stream logged in")
     }
+    
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceive event: SpPlaybackEvent) {
+        if event == SPPlaybackNotifyTrackChanged && !(player?.playbackState.isPlaying)! {
+            playNextSong()
+        }
+    }
+    
     
     func playSong(spotifyURI: String) {
         if currentTrackOffset != nil {
