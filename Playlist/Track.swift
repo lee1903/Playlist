@@ -14,6 +14,7 @@ class Track: NSObject {
     let artist: String
     let title: String
     let playableURI: URL
+    let duration: Double
     //var votes: [User]
     var votes: [User]
     var didVote: Bool
@@ -39,6 +40,9 @@ class Track: NSObject {
         
         let date = NSDate()
         self.timeQueued = UInt64(date.timeIntervalSince1970 * 1000.0)
+        
+        self.duration = track.duration
+        
     }
     
     init(dictionary: NSDictionary) {
@@ -50,6 +54,7 @@ class Track: NSObject {
         self.timePlayed = dictionary["timePlayed"] as! UInt64
         self.timeQueued = dictionary["timeQueued"] as! UInt64
         self.timeUpvoted = dictionary["timeUpvoted"] as! UInt64
+        self.duration = dictionary["duration"] as! Double
         
         let votesDictionary = dictionary["votes"] as! [String : String]
         for obj in votesDictionary {
@@ -74,7 +79,7 @@ class Track: NSObject {
         for user in self.votes {
             voteDictionary[user.id] = user.name
         }
-        let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : voteDictionary, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)", "timeQueued" : self.timeQueued, "timePlayed" : self.timePlayed, "timeUpvoted" : self.timeUpvoted] as [String : Any]
+        let dic = ["name" : "\(self.name)", "playableURI" : "\(self.playableURI)", "votes" : voteDictionary, "artist" : "\(self.artist)", "title" : "\(self.title)", "imageURL" : "\(self.imageURL)", "timeQueued" : self.timeQueued, "timePlayed" : self.timePlayed, "timeUpvoted" : self.timeUpvoted, "duration" : self.duration] as [String : Any]
         
         return dic
     }

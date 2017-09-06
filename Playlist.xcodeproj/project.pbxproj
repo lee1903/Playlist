@@ -29,6 +29,7 @@
 		E4913C101E805E39007CBF70 /* PlaylistSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C0F1E805E39007CBF70 /* PlaylistSessionManager.swift */; };
 		E4913C141E818D2F007CBF70 /* JoinSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */; };
 		E494D3121E777569001EB774 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E494D3111E777569001EB774 /* SearchViewController.swift */; };
+		E4CB61881F539C5F0064B7A4 /* Gotham Bold Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4CB61871F539C5F0064B7A4 /* Gotham Bold Regular.ttf */; };
 		E4CC24741E81DCA200F1A436 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CC24731E81DCA200F1A436 /* User.swift */; };
 		E4CC24761E8EE5F100F1A436 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E4CC24751E8EE5F100F1A436 /* GoogleService-Info.plist */; };
 		ECB4CADFD031A76E7B7E0202 /* Pods_Playlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E2609A37E95B04D6B89DDE /* Pods_Playlist.framework */; };
@@ -63,6 +64,7 @@
 		E4913C0F1E805E39007CBF70 /* PlaylistSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistSessionManager.swift; sourceTree = "<group>"; };
 		E4913C131E818D2F007CBF70 /* JoinSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinSessionViewController.swift; sourceTree = "<group>"; };
 		E494D3111E777569001EB774 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E4CB61871F539C5F0064B7A4 /* Gotham Bold Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Bold Regular.ttf"; sourceTree = "<group>"; };
 		E4CC24731E81DCA200F1A436 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E4CC24751E8EE5F100F1A436 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,11 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E42D34A31E7787E200C3A70B /* SearchDataCell.swift */,
-				E4913BF81E7EF7CB007CBF70 /* SpotifySearchItem.swift */,
 				E4913BFC1E7F078B007CBF70 /* PlaylistCell.swift */,
-				E4913BFE1E7F0858007CBF70 /* Track.swift */,
-				E4CC24731E81DCA200F1A436 /* User.swift */,
-				E4913C0B1E7F1BA7007CBF70 /* PlaylistSession.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -135,9 +133,11 @@
 		E47351A91E74CA2900966862 /* Playlist */ = {
 			isa = PBXGroup;
 			children = (
+				E4CB61851F539C370064B7A4 /* Resources */,
 				E4275DB61E7508C4001B938D /* SpotifyAudioPlayback.framework */,
 				E4275DB71E7508C4001B938D /* SpotifyAuthentication.framework */,
 				E4275DB81E7508C4001B938D /* SpotifyMetadata.framework */,
+				E4CB61541F5344610064B7A4 /* Models */,
 				E42D34A21E7787BC00C3A70B /* Views */,
 				E494D3101E7773D1001EB774 /* View Controllers */,
 				E4913C001E7F0C81007CBF70 /* API */,
@@ -173,6 +173,25 @@
 				E494D3111E777569001EB774 /* SearchViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		E4CB61541F5344610064B7A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4913BF81E7EF7CB007CBF70 /* SpotifySearchItem.swift */,
+				E4913BFE1E7F0858007CBF70 /* Track.swift */,
+				E4CC24731E81DCA200F1A436 /* User.swift */,
+				E4913C0B1E7F1BA7007CBF70 /* PlaylistSession.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		E4CB61851F539C370064B7A4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E4CB61871F539C5F0064B7A4 /* Gotham Bold Regular.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E47351B51E74CA2A00966862 /* LaunchScreen.storyboard in Resources */,
+				E4CB61881F539C5F0064B7A4 /* Gotham Bold Regular.ttf in Resources */,
 				E4CC24761E8EE5F100F1A436 /* GoogleService-Info.plist in Resources */,
 				E47351B21E74CA2A00966862 /* Assets.xcassets in Resources */,
 				E47351B01E74CA2900966862 /* Main.storyboard in Resources */,

@@ -15,6 +15,14 @@ class CreateSessionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        nameTextField.keyboardAppearance = .light
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "Session Name", attributes: [NSForegroundColorAttributeName: UIColor.lightGray])
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+            self.nameTextField.becomeFirstResponder()
+        })
+
         // Do any additional setup after loading the view.
     }
 

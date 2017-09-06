@@ -17,8 +17,12 @@ class SpotifyLoginViewController: UIViewController {
     let tokenSwapURL = "https://strawberry-pudding-60129.herokuapp.com/swap"
     let tokenRefreshServiceURL = "https://strawberry-pudding-60129.herokuapp.com/refresh"
 
+    @IBOutlet weak var spotifyLoginButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        spotifyLoginButton.layer.cornerRadius = 18
 
         // Do any additional setup after loading the view.
     }

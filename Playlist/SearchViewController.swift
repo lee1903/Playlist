@@ -12,7 +12,6 @@ class SearchViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var queryTypeSegmentedControl: UISegmentedControl!
     
     var tableData: [SpotifySearchItem]?
     var session: SPTSession!
@@ -48,26 +47,12 @@ class SearchViewController: UIViewController {
     }
     
     func searchSpotify(query: String) {
-        
-        let type: SPTSearchQueryType?
-        
-        switch queryTypeSegmentedControl.selectedSegmentIndex {
-        case 0:
-            type = SPTSearchQueryType.queryTypeTrack
-        case 1:
-            type = SPTSearchQueryType.queryTypeArtist
-        case 2:
-            type = SPTSearchQueryType.queryTypeAlbum
-        default:
-            type = nil
-        }
-        
-        SPTSearch.perform(withQuery: query, queryType: type!, accessToken: session.accessToken) { (error, response) in
+        SPTSearch.perform(withQuery: query, queryType: SPTSearchQueryType.queryTypeTrack, accessToken: session.accessToken) { (error, response) in
             if error != nil {
                 print(error!)
             } else {
                 let listpage = response as! SPTListPage
-                self.updateTableData(response: listpage, type: type!)
+                self.updateTableData(response: listpage, type: SPTSearchQueryType.queryTypeTrack)
             }
         }
     }
@@ -88,25 +73,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func updateTableData(response: SPTListPage, type: SPTSearchQueryType) {
         
-        var typeString = ""
+        let typeString = "track"
         var items = [SpotifySearchItem]()
-        
-        switch type {
-        case SPTSearchQueryType.queryTypeTrack:
-            typeString = "track"
-        case SPTSearchQueryType.queryTypeArtist:
-            typeString = "artist"
-        case SPTSearchQueryType.queryTypeAlbum:
-            typeString = "album"
-        default:
-            print("error")
-        }
-        
         
         if response.items != nil{
             for obj in response.items {
                 let spotifyItem = SpotifySearchItem(type: typeString, item: obj)
                 items.append(spotifyItem)
+                print(obj)
             }
             
             self.tableData = items
@@ -133,12 +107,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if queryTypeSegmentedControl.selectedSegmentIndex == 0 {
-            let trackObj = tableData?[indexPath.row].object as! SPTPartialTrack
-            let track = Track(track: trackObj)
+        let trackObj = tableData?[indexPath.row].object as! SPTPartialTrack
+        let track = Track(track: trackObj)
             
-            PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
-        }
+        PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
     }
     
 }

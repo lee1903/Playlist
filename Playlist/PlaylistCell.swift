@@ -19,6 +19,7 @@ class PlaylistCell: UITableViewCell {
     @IBOutlet weak var nowPlayingImage: UIImageView!
     @IBOutlet weak var albumCover: UIImageView!
     
+    
     var track: Track?
     
     override func awakeFromNib() {

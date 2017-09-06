@@ -14,6 +14,10 @@ class JoinSessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+            self.nameTextField.becomeFirstResponder()
+        })
 
         // Do any additional setup after loading the view.
     }

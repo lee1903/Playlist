@@ -10,8 +10,16 @@ import UIKit
 
 class CreateJoinSessionViewController: UIViewController {
 
+    @IBOutlet weak var createSessionButton: UIButton!
+    @IBOutlet weak var joinSessionButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        createSessionButton.layer.cornerRadius = 18
+        joinSessionButton.layer.cornerRadius = 18
+        
+        //self.navigationController?.isNavigationBarHidden = true
 
         // Do any additional setup after loading the view.
     }

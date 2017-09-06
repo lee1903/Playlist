@@ -288,9 +288,14 @@ extension PlaylistViewController: SPTAudioStreamingDelegate, SPTAudioStreamingPl
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceive event: SpPlaybackEvent) {
-        if event == SPPlaybackNotifyTrackChanged && !(player?.playbackState.isPlaying)! {
+        if event == SPPlaybackNotifyTrackDelivered {
             playNextSong()
         }
+    }
+    
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChangePosition position: TimeInterval) {
+        let currentTrack = tableData?[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
+        let progress = Double(position)/(currentTrack?.duration)!
     }
     
     
