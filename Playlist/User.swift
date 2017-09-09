@@ -15,8 +15,8 @@ class User: NSObject, NSCoding {
     init(name: String, id: String) {
 //        self.name = name
 //        self.id = id
-        self.name = "Aidan Lowe"
-        self.id = "alifjba377c321fv8h23h"
+        self.name = "Brian Lee"
+        self.id = "alif377c321ffdfv8h23h"
     }
     
     init(key: String, value: String) {

@@ -15,6 +15,7 @@ class PlaylistViewController: UIViewController {
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var mediaControlsView: UIView!
+    @IBOutlet weak var endSessionButton: UIBarButtonItem!
     
     var tableData: [Track]?
     
@@ -34,19 +35,23 @@ class PlaylistViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        if isAdmin() {
+            self.setUpAudioStreamer(sessionObj: SpotifyClient.sharedInstance.session)
+        } else {
+            mediaControlsView.isHidden = true
+            endSessionButton.title = "Leave"
+        }
+        
         notPlaying = true
         
         navBar.topItem?.title = PlaylistSessionManager.sharedInstance.session?.name
         
-        self.setUpAudioStreamer(sessionObj: SpotifyClient.sharedInstance.session)
+        
         
         setTracklistListener()
         setCurrentTrackIndexListener()
         setSessionEndListener()
         
-        if !isAdmin() {
-            mediaControlsView.isHidden = true
-        }
         // Do any additional setup after loading the view.
     }
 
@@ -64,7 +69,14 @@ class PlaylistViewController: UIViewController {
                 print("session ended")
                 self.player?.logout()
                 
-                //TODO - alert those joined session that session has been ended, redirect to home screen
+                let alertController = UIAlertController(title: "Sorry", message: "Party's over. The host has ended the session :(", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                    (result : UIAlertAction) -> Void in
+                    self.leavePlaylistSession()
+                }
+                
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
             }
         })
     }
@@ -174,18 +186,22 @@ class PlaylistViewController: UIViewController {
     func isAdmin() -> Bool {
         return PlaylistSessionManager.sharedInstance.session?.admin == SpotifyClient.sharedInstance.currentUser.id
     }
-
-    @IBAction func onEndSession(_ sender: Any) {
+    
+    func leavePlaylistSession() {
         let userDefaults = UserDefaults.standard
         userDefaults.removeObject(forKey: "PlaylistSession")
         userDefaults.synchronize()
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
+    }
+
+    @IBAction func onEndSession(_ sender: Any) {
+        leavePlaylistSession()
         
         //if admin ends the session, remove session from db
         if isAdmin() {
             PlaylistClient.endPlaylistSession(session: PlaylistSessionManager.sharedInstance.session!)
         }
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
     }
     
     

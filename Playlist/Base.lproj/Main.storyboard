@@ -530,6 +530,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Playlist" image="Playlist" id="KBS-rV-6hC"/>
                     <connections>
+                        <outlet property="endSessionButton" destination="ywy-kG-3Cb" id="DSh-AD-f0h"/>
                         <outlet property="mediaControlsView" destination="1cE-ek-AZZ" id="vzX-mK-E2r"/>
                         <outlet property="navBar" destination="lzX-q3-Nbn" id="rkq-Ag-2jw"/>
                         <outlet property="playButton" destination="cen-vv-9sn" id="csp-Uq-amT"/>
