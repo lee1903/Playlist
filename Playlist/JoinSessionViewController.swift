@@ -38,17 +38,20 @@ class JoinSessionViewController: UIViewController {
                 })
             } else {
                 print("no session found with that name")
-                
-                let alertController = UIAlertController(title: "Error", message: "No sessions found with that name", preferredStyle: UIAlertControllerStyle.alert)
-                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
-                    (result : UIAlertAction) -> Void in
-                    print("OK")
-                }
-                
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
+                self.displayAlert(message: "No sessions found with that name")
             }
         }
+    }
+    
+    func displayAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            print("OK")
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
 

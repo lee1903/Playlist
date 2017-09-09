@@ -30,6 +30,7 @@ class CreateJoinSessionViewController: UIViewController {
     }
     
     @IBAction func onLogout(_ sender: Any) {
+        
     }
 
     /*

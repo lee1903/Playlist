@@ -30,6 +30,17 @@ class PlaylistClient {
         ref.child("sessions/\(session.name)").setValue(session.toDictionary())
     }
     
+    class func playlistAlreadyExists(sessionName: String, completion:@escaping (Bool) -> ()) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions").child(sessionName).observeSingleEvent(of: .value, with: { (snapshot) in
+            if !snapshot.exists() {
+                completion(false)
+            } else {
+                completion(true)
+            }
+        })
+    }
+    
     class func getPlaylist(name: String, completion:@escaping (PlaylistSession?, Error?) -> ()) {
         let ref = FIRDatabase.database().reference()
         ref.child("sessions").child(name).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -96,5 +107,10 @@ class PlaylistClient {
         
         let ref = FIRDatabase.database().reference()
         ref.child("sessions/\(session.name)/tracklist/\(track.playableURI)/timePlayed").setValue(currentTime)
+    }
+    
+    class func endPlaylistSession(session: PlaylistSession) {
+        let ref = FIRDatabase.database().reference()
+        ref.child("sessions/\(session.name)").removeValue()
     }
 }

@@ -32,15 +32,43 @@ class CreateSessionViewController: UIViewController {
     }
     
     @IBAction func onDone(_ sender: Any) {
-        if nameTextField.text != nil && !nameTextField.text!.contains("."){
-            let playlistSession = PlaylistSession(name: nameTextField.text!)
-            PlaylistClient.createPlaylistSession(session: playlistSession)
-            PlaylistSessionManager.sharedInstance.saveSession(session: playlistSession, completion: {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
-            })
-        } else {
-            print("error text field blank")
+        
+        guard !(nameTextField.text?.isEmpty)! else {
+            displayAlert(message: "You must enter a name for the session")
+            return
         }
+        
+        //Todo - no special characters
+        guard !nameTextField.text!.contains(".") else {
+            displayAlert(message: "You can not have a period in the session name")
+            return
+        }
+        
+        //check if Playlist with same name already exists
+        PlaylistClient.playlistAlreadyExists(sessionName: nameTextField.text!) { (exists) in
+            if exists {
+                self.displayAlert(message: "A session with this name already exists")
+            } else {
+                let playlistSession = PlaylistSession(name: self.nameTextField.text!)
+                PlaylistClient.createPlaylistSession(session: playlistSession)
+                PlaylistSessionManager.sharedInstance.saveSession(session: playlistSession, completion: {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
+                })
+            }
+        }
+        
+        
+    }
+    
+    func displayAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            print("OK")
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 
     /*

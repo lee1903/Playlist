@@ -42,8 +42,9 @@ class PlaylistViewController: UIViewController {
         
         setTracklistListener()
         setCurrentTrackIndexListener()
+        setSessionEndListener()
         
-        if PlaylistSessionManager.sharedInstance.session?.admin != SpotifyClient.sharedInstance.currentUser.id {
+        if !isAdmin() {
             mediaControlsView.isHidden = true
         }
         // Do any additional setup after loading the view.
@@ -54,12 +55,27 @@ class PlaylistViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func setSessionEndListener() {
+        let tracklistRef = FIRDatabase.database().reference(withPath: "sessions/\(PlaylistSessionManager.sharedInstance.session!.name)/")
+        
+        //if session has been ended, log out audio streaming
+        tracklistRef.observe(.value, with: { snapshot in
+            if !snapshot.exists() {
+                print("session ended")
+                self.player?.logout()
+                
+                //TODO - alert those joined session that session has been ended, redirect to home screen
+            }
+        })
+    }
+    
     func setTracklistListener() {
         let tracklistRef = FIRDatabase.database().reference(withPath: "sessions/\(PlaylistSessionManager.sharedInstance.session!.name)/tracklist")
         
         tracklistRef.observe(.value, with: { snapshot in
             var newItems: [Track] = []
             
+            //get the new tracklist if its been changed
             let trackArray = snapshot.value as? [String : AnyObject] ?? [:]
             for item in trackArray {
                 let trackDict = item.value as! NSDictionary
@@ -67,19 +83,13 @@ class PlaylistViewController: UIViewController {
                 newItems.append(track)
             }
             
+            //update session with new tracklist and sort tracks
             PlaylistSessionManager.sharedInstance.session?.tracklist = newItems
             PlaylistSessionManager.sharedInstance.session?.sortTracklist()
             
+            //update table view with new tracklist
             self.tableData = PlaylistSessionManager.sharedInstance.session?.tracklist
             self.tableView.reloadData()
-            
-//            if (self.tableData?.count)! > 0 {
-//                if PlaylistSessionManager.sharedInstance.session!.currentTrackIndex >= 0{
-//                    let indexPath = IndexPath(row: PlaylistSessionManager.sharedInstance.session!.currentTrackIndex, section: 0)
-//                    self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
-//                }
-//            }
-            
         })
     }
     
@@ -88,40 +98,81 @@ class PlaylistViewController: UIViewController {
         
         currentTrackIndexRef.observe(.value, with: { snapshot in
             
+            //update session when current track has been changed
             if let index = snapshot.value as? Int {
                 PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = index
             }
             
             self.tableView.reloadData()
             
-            if self.tableData != nil {
-                if (self.tableData?.count)! > 0 {
-                    if (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)! >= 0{
-                        let indexPath = IndexPath(row: (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!, section: 0)
-                        self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
-                    }
-                }
-            }
+            guard self.tableData != nil else { return }
+            guard (self.tableData?.count)! > 0 else { return }
             
+            //if table is initialized and not empty, scroll table view to the current track
+            if (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)! >= 0{
+                let indexPath = IndexPath(row: (PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+            }
         })
 
     }
     
     func playNextSong() {
         let currentIndex = PlaylistSessionManager.sharedInstance.session!.currentTrackIndex
-        if currentIndex >= 0 {
-            //checks if current song is the last song in queue
-            if currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! {
-                self.currentTrackOffset = nil
-                PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
-                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
-                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
-                self.tableView.reloadData()
-                
-                PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
-                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
-            }
+        
+        //check if music has started playing yet
+        guard currentIndex >= 0 else { return }
+        //check if end of queue has been reached
+        guard currentIndex + 1 < (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! else { return }
+        
+        //reset the current track offset
+        self.currentTrackOffset = nil
+        
+        //increment the index and play the next song
+        PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = currentIndex + 1
+        let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[currentIndex + 1]
+        self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+        self.tableView.reloadData()
+        
+        //update the db with new current track
+        PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
+        PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
+    }
+    
+    func playCurrentSong() {
+        //checks to make sure queue is not empty
+        guard (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 else { return }
+        
+        //if no song has been played yet, set current track to first song
+        if PlaylistSessionManager.sharedInstance.session?.currentTrackIndex == -1 {
+            PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
+            PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
         }
+        
+        let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
+        
+        //update time song played in db
+        PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
+        
+        self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
+
+        self.tableView.reloadData()
+    }
+    
+    func pauseCurrentSong() {
+        self.currentTrackOffset = player?.playbackState.position
+        player?.setIsPlaying(false, callback: { (error) in
+            if error != nil {
+                print("error pausing")
+            } else {
+                self.playButton.setImage(UIImage(named: "Play"), for: UIControlState.normal)
+                self.notPlaying = true
+            }
+        })
+    }
+    
+    func isAdmin() -> Bool {
+        return PlaylistSessionManager.sharedInstance.session?.admin == SpotifyClient.sharedInstance.currentUser.id
     }
 
     @IBAction func onEndSession(_ sender: Any) {
@@ -129,39 +180,22 @@ class PlaylistViewController: UIViewController {
         userDefaults.removeObject(forKey: "PlaylistSession")
         userDefaults.synchronize()
         
+        //if admin ends the session, remove session from db
+        if isAdmin() {
+            PlaylistClient.endPlaylistSession(session: PlaylistSessionManager.sharedInstance.session!)
+        }
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
     }
     
     
     @IBAction func onPlay(_ sender: Any) {
         if notPlaying == true {
-            //checks to make sure queue is not empty
-            if (PlaylistSessionManager.sharedInstance.session?.tracklist.count)! > 0 {
-                //if no song has been played yet, set currentTrackIndex to 0
-                if PlaylistSessionManager.sharedInstance.session?.currentTrackIndex == -1 {
-                    PlaylistSessionManager.sharedInstance.session?.currentTrackIndex = 0
-                    PlaylistClient.updateCurrentTrackIndex(session: PlaylistSessionManager.sharedInstance.session!)
-                }
-                let currentTrack = PlaylistSessionManager.sharedInstance.session!.tracklist[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
-                
-                //updates timePlayed in Firebase
-                PlaylistClient.setTrackTimePlayed(session: PlaylistSessionManager.sharedInstance.session!, track: currentTrack)
-                
-                self.playSong(spotifyURI: currentTrack.playableURI.absoluteString)
-                self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
-                self.notPlaying = false
-                self.tableView.reloadData()
-            }
+            //music is not playing, start playing music
+            playCurrentSong()
         } else {
-            self.currentTrackOffset = player?.playbackState.position
-            player?.setIsPlaying(false, callback: { (error) in
-                if error != nil {
-                    print("error pausing")
-                } else {
-                    self.playButton.setImage(UIImage(named: "Play"), for: UIControlState.normal)
-                    self.notPlaying = true
-                }
-            })
+            //music is currently playing, pause music
+            pauseCurrentSong()
         }
 
     }
@@ -169,17 +203,6 @@ class PlaylistViewController: UIViewController {
     @IBAction func onNext(_ sender: Any) {
         playNextSong()
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
@@ -287,19 +310,25 @@ extension PlaylistViewController: SPTAudioStreamingDelegate, SPTAudioStreamingPl
         print("audio stream logged in")
     }
     
+    func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController!) {
+        print("audo stream logged out")
+    }
+    
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didReceive event: SpPlaybackEvent) {
         if event == SPPlaybackNotifyTrackDelivered {
             playNextSong()
         }
     }
     
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChangePosition position: TimeInterval) {
-        let currentTrack = tableData?[(PlaylistSessionManager.sharedInstance.session?.currentTrackIndex)!]
-        let progress = Double(position)/(currentTrack?.duration)!
-    }
-    
     
     func playSong(spotifyURI: String) {
+        //if music is not currently playing, change the play/pause button to pause
+        if notPlaying == true {
+            self.playButton.setImage(UIImage(named: "Pause"), for: UIControlState.normal)
+            self.notPlaying = false
+        }
+        
+        //if song was previously paused, play from where it was paused, otherwise play from start
         if currentTrackOffset != nil {
             player?.playSpotifyURI(spotifyURI, startingWith: 0, startingWithPosition: currentTrackOffset!, callback: { (error) in
                 if error != nil {
