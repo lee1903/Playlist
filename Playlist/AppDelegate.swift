@@ -18,8 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let clientID = "b9e60d3ffe6e4df8bbab4267ee07470f"
     let callbackURL = "playlist://returnafterlogin"
-//    let tokenSwapURL = "http://localhost:1235/swap"
-//    let tokenRefreshServiceURL = "http://localhost:1235/refresh"
     let tokenSwapURL = "https://strawberry-pudding-60129.herokuapp.com/swap"
     let tokenRefreshServiceURL = "https://strawberry-pudding-60129.herokuapp.com/refresh"
 
@@ -31,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayPlayerView), name: NSNotification.Name(rawValue: "createPlaylistSessionSuccessful"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayCreateJoinSessionView), name: NSNotification.Name(rawValue: "userEndedSession"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.displayLoginView), name: NSNotification.Name(rawValue: "userLoggedOut"), object: nil)
         
         if !SpotifyClient.sharedInstance.authenticateSpotifySession() {
             print("user needs to login")
@@ -67,6 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return false
+    }
+    
+    func displayLoginView() {
+        let vc = storyboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
+        window?.rootViewController = vc
     }
     
     func displayCreateJoinSessionView() {

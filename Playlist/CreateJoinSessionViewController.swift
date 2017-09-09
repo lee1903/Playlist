@@ -30,7 +30,11 @@ class CreateJoinSessionViewController: UIViewController {
     }
     
     @IBAction func onLogout(_ sender: Any) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "user")
+        userDefaults.synchronize()
         
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "userLoggedOut"), object: nil)
     }
 
     /*
