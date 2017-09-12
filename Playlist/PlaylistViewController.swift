@@ -46,8 +46,6 @@ class PlaylistViewController: UIViewController {
         
         navBar.topItem?.title = PlaylistSessionManager.sharedInstance.session?.name
         
-        
-        
         setTracklistListener()
         setCurrentTrackIndexListener()
         setSessionEndListener()
@@ -90,9 +88,12 @@ class PlaylistViewController: UIViewController {
             //get the new tracklist if its been changed
             let trackArray = snapshot.value as? [String : AnyObject] ?? [:]
             for item in trackArray {
+                //add track to tracklist
                 let trackDict = item.value as! NSDictionary
                 let track = Track(dictionary: trackDict)
                 newItems.append(track)
+                //add track to history
+                PlaylistSessionManager.sharedInstance.session!.history[track.playableURI.absoluteString] = true
             }
             
             //update session with new tracklist and sort tracks
@@ -102,6 +103,8 @@ class PlaylistViewController: UIViewController {
             //update table view with new tracklist
             self.tableData = PlaylistSessionManager.sharedInstance.session?.tracklist
             self.tableView.reloadData()
+            
+            print(PlaylistSessionManager.sharedInstance.session!.history)
         })
     }
     
@@ -233,13 +236,13 @@ extension PlaylistViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell", for: indexPath) as! PlaylistCell
         
-        cell.nameLabel.text = tableData![indexPath.row].title
-        cell.artistLabel.text = tableData![indexPath.row].artist
-        cell.voteLabel.text = "\(tableData![indexPath.row].votes.count)"
-        cell.track = tableData![indexPath.row]
+        let track = tableData![indexPath.row]
         
-        let url = URL(string: tableData![indexPath.row].imageURL)
-        cell.albumCover.setImageWith(url!)
+        cell.nameLabel.text = track.title
+        cell.artistLabel.text = track.artist
+        cell.voteLabel.text = "\(track.votes.count)"
+        cell.track = track
+        cell.albumCover.setImageWith(URL(string: track.imageURL)!)
         
         if tableData![indexPath.row].didVote {
             cell.voteButton.setImage(UIImage(named: "Circle-Up-Filled"), for: UIControlState.normal)

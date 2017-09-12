@@ -12,6 +12,7 @@ class PlaylistSession: NSObject, NSCoding {
     let name: String
     let date: Date
     var tracklist: [Track]
+    var history: [String: Bool]
     let admin: String
     var currentTrackIndex: Int
     
@@ -19,6 +20,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.name = name
         self.date = Date()
         self.tracklist = []
+        self.history = [:]
         self.admin = SpotifyClient.sharedInstance.currentUser.id
         self.currentTrackIndex = -1
     }
@@ -31,9 +33,7 @@ class PlaylistSession: NSObject, NSCoding {
         let date = dateFormatter.date(from: dictionary["date"] as! String)
         self.date = date!
         
-        //let tracklistArray = dictionary["tracklist"] as! NSArray
-        
-        //create track objects from tracklistArray
+        self.history = [:]
         self.tracklist = []
         self.admin = dictionary["admin"] as! String
         self.currentTrackIndex = dictionary["currentTrackIndex"] as! Int
@@ -89,6 +89,7 @@ class PlaylistSession: NSObject, NSCoding {
         self.date = aDecoder.decodeObject(forKey: "date") as? Date ?? Date()
         self.admin = aDecoder.decodeObject(forKey: "admin") as? String ?? ""
         self.tracklist = []
+        self.history = [:]
         self.currentTrackIndex = aDecoder.decodeObject(forKey: "currentTrackIndex") as? Int ?? -1
     }
     

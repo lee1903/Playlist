@@ -13,7 +13,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var tableData: [SpotifySearchItem]?
+    var tableData: [Track]?
     var session: SPTSession!
     
     override func viewDidLoad() {
@@ -32,6 +32,8 @@ class SearchViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false 
         view.addGestureRecognizer(tap)
+        
+        self.searchBar.becomeFirstResponder()
 
         // Do any additional setup after loading the view.
     }
@@ -56,7 +58,17 @@ class SearchViewController: UIViewController {
             }
         }
     }
-
+    
+    func queueSongPressed(sender: UIButton) {
+        let track = tableData![sender.tag]
+        
+        print(track.name + " has been added to queue")
+        
+        PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
+        sender.setImage(UIImage(named: "Check"), for: .normal)
+        sender.isUserInteractionEnabled = false
+    }
+ 
     /*
     // MARK: - Navigation
 
@@ -72,15 +84,12 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func updateTableData(response: SPTListPage, type: SPTSearchQueryType) {
-        
-        let typeString = "track"
-        var items = [SpotifySearchItem]()
+        var items = [Track]()
         
         if response.items != nil{
             for obj in response.items {
-                let spotifyItem = SpotifySearchItem(type: typeString, item: obj)
+                let spotifyItem = Track(track: obj as! SPTPartialTrack)
                 items.append(spotifyItem)
-                print(obj)
             }
             
             self.tableData = items
@@ -101,16 +110,30 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchDataCell", for: indexPath) as! SearchDataCell
         
-        cell.nameLabel.text = tableData?[indexPath.row].name
+        let track = tableData![indexPath.row]
+        
+        cell.titleLabel.text = track.title
+        cell.artistLabel.text = track.artist
+        cell.albumCoverImageView.setImageWith(URL(string: track.imageURL)!)
+        cell.queueSongButton.tag = indexPath.row
+        cell.queueSongButton.addTarget(self, action: #selector(queueSongPressed), for: .touchUpInside)
+        
+        cell.selectionStyle = .none
+        
+        if(PlaylistSessionManager.sharedInstance.session!.history[track.playableURI.absoluteString] != nil) {
+            cell.queueSongButton.setImage(UIImage(named: "Check"), for: .normal)
+            cell.queueSongButton.isUserInteractionEnabled = false
+        } else {
+            cell.queueSongButton.setImage(UIImage(named: "Plus"), for: .normal)
+            cell.queueSongButton.isUserInteractionEnabled = true
+        }
+        
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let trackObj = tableData?[indexPath.row].object as! SPTPartialTrack
-        let track = Track(track: trackObj)
-            
-        PlaylistClient.addTrackToPlaylist(session: PlaylistSessionManager.sharedInstance.session!, track: track)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        dismissKeyboard()
     }
     
 }
